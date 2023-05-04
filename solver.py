@@ -1,88 +1,123 @@
+
+import numpy as np
+
 class Cube:
     def __init__(self):
-        DIM = 3
-        SIDE_SIZE = 9
-        ROW_SIZE = 3
-        COL_SIZE = ROW_SIZE
+        """
+        Instantiate the Rubik's cube as a 6x3x3 using Numpy arrays
+            Cube[0] -> White
+            Cube[1] -> Yellow
+            Cube[2] -> Blue
+            Cube[3] -> Green
+            Cube[4] -> Red
+            Cube[5] -> Orange
+ 
+        Assuming the cube is in oriented in the following manner:
+            Blue facing the user, Green behind
+            Orange on the left, Red on the right
+            Yellow on the top, White on the bottom
+        """        
+        white_face = np.array([['w' for i in range(3)] for i in range(3)])
+        yellow_face = np.array([['y' for i in range(3)] for i in range(3)])
+        blue_face = np.array([['b' for i in range(3)] for i in range(3)])
+        green_face = np.array([['g' for i in range(3)] for i in range(3)])
+        red_face = np.array([['r' for i in range(3)] for i in range(3)])
+        orange_face = np.array([['o' for i in range(3)] for i in range(3)])
         cube = []
-
-
-        self.row1 = [i for i in range(ROW_SIZE)]
-        self.row2 = [i+(DIM) for i in range(ROW_SIZE)]
-        self.row3 = [i+(2*DIM) for i in range(ROW_SIZE)]
-
-        self.col1 = [(DIM*i) for i in range(COL_SIZE)]
-        self.col2 = [1+(DIM*i) for i in range(COL_SIZE)]
-        self.col3 = [2+(DIM*i) for i in range(COL_SIZE)]
-
-
-        white = ['W' for i in range(SIDE_SIZE)] #0
-        yellow = ['Y' for i in range(SIDE_SIZE)] #1
-        orange = ['O' for i in range(SIDE_SIZE)] #2
-        red = ['R' for i in range(SIDE_SIZE)] #3
-        blue = ['B' for i in range(SIDE_SIZE)] #4
-        green = ['G' for i in range(SIDE_SIZE)] #5
-
-
-        cube.extend((white, yellow, orange, red, blue, green))
-        self.cube = cube
+        cube.extend((white_face, yellow_face, blue_face, green_face, red_face, orange_face))
+        self.cube = np.stack(cube, 0)
     
-    def __get_opposite_side(self, side):
-        if (side % 2 == 0):
-            return (side+1)
+    def turn_horizontal(self, row):
+        """
+        Function for the horizontal turns (U, D' in Rubik's Cube notation)
+
+        Parameters: 
+            row (int): which row number to turn: 0 is the U layer, 2 is the D layer
+        Return:
+            None
+        """
+        temp = [i for i in self.cube[2][row]]
+
+        self.cube[2][row] = self.cube[4][row]
+        self.cube[4][row] = self.cube[3][row]
+        self.cube[3][row] = self.cube[5][row]
+        self.cube[5][row] = temp
+
+        # self.cube[4] = np.fliplr(self.cube[4])
+        # self.cube[4] = np.flipud(self.cube[4])
+
+
+
+        if (row == 0):
+            self.cube[1] = np.rot90(self.cube[1], -1)
+        
+        elif (row == 2):
+            self.cube[0] = np.rot90(self.cube[0], -1)
         else:
-            return (side-1)
+            return
+
+    def turn_vertical(self, col):
+        """
+        Function for the vertical turns (R, L' in Rubik's cube notation)
+
+        Parameters: 
+            col (int): which col number to turn: 0 is the L layer, 2 is the R layer
+        
+        Return: 
+            None
+        """
+        temp = [i for i in self.cube[0][:, col]]
+
+        self.cube[0][:, col] = self.cube[3][:, col]
+        self.cube[3][:, col] = self.cube[1][:, col]
+        self.cube[1][:, col] = self.cube[2][:, col]
+        self.cube[2][:, col] = temp
+
+
+        # self.cube[4] = np.fliplr(self.cube[4])
+        # self.cube[4] = np.flipud(self.cube[4])
+
+
+        if (col == 0):
+            self.cube[5] = np.transpose(self.cube[5] )
+        
+        elif (col == 2):
+            self.cube[4] = np.transpose(self.cube[4] )
+        else:
+            return
     
+    def turn_sideways(self, side_col):
+        """
+        Function for sideways turns (F, B' in Rubik's Cube Notation)
+        
+        Parameters: 
+            side_col (int): which side_col number to turn (0 is F, 2 is B')
+        """
+        temp = [i for i in self.cube[1][:, 2-side_col]]
+        self.cube[1][2-side_col] = self.cube[5][2-side_col]
+        self.cube[5][:,2-side_col] = self.cube[0][:,2-side_col]
+        self.cube[0][2-side_col] = self.cube[4][2-side_col]
+        self.cube[4][:, 2-side_col] = temp
 
-    def orient(self, front, right, top):
-        self.front = front 
-        self.right = right
-        self.top = top
-        self.bottom = self.__get_opposite_side(top)
-        self.left = self.__get_opposite_side(right)
-        self.back = self.__get_opposite_side(front)
-
-
-    # Right and left faces will not be affected
-    def turn_right(self):
-        print("Bottom: ", self.bottom)
-        print("Front: ", self.front)
-        temp = [i for i in self.cube[self.back]]
-        for i in self.col3:
-            self.cube[self.back][i] = self.cube[self.top][i]
-            self.cube[self.top][i] = self.cube[self.front][i]
-            self.cube[self.front][i] = self.cube[self.bottom][i]
-            self.cube[self.bottom][i] = temp[i]
 
         
-
-    def get_cube(self):
-        return self.cube
-    
-    def __display_side(self, side):
-        for i in range(9):
-            print(side[i],end="")
-            if (i-1 in self.col2):
-                print("")
-    
     def display_cube(self):
-        for side in self.cube:
-            self.__display_side(side)
+        for i in range(6):
+            # if (i == 4 or i == 5):
+            #     print(np.flip(self.cube[i]))
+            #     print("")                
+            # else:
+            #     print(self.cube[i])
+            #     print("")
+            print(self.cube[i])
             print("")
-        
-
-
-
-
 
 test = Cube()
+test.turn_vertical(2)
+test.turn_horizontal(0)
+print("------------------")
 test.display_cube()
-test.orient(4, 2, 0)
-test.turn_right()
-print("----------")
+test.turn_vertical(2)
+# test.turn_sideways(0)
+print("------------------")
 test.display_cube()
-
-    
-
-        
-    
