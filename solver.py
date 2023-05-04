@@ -69,10 +69,9 @@ class Cube:
         temp = [i for i in self.cube[0][:, col]]
 
         self.cube[0][:, col] = self.cube[3][:, col]
-        self.cube[3][:, col] = self.cube[1][:, col]
+        self.cube[3][:, col] = self.cube[1][:, col][::-1]
         self.cube[1][:, col] = self.cube[2][:, col]
         self.cube[2][:, col] = temp
-
 
         # self.cube[4] = np.fliplr(self.cube[4])
         # self.cube[4] = np.flipud(self.cube[4])
