@@ -68,7 +68,7 @@ class Cube:
         """
         temp = [i for i in self.cube[0][:, col]]
 
-        self.cube[0][:, col] = self.cube[3][:, col]
+        self.cube[0][:, col] = self.cube[3][:, col][::-1]
         self.cube[3][:, col] = self.cube[1][:, col][::-1]
         self.cube[1][:, col] = self.cube[2][:, col]
         self.cube[2][:, col] = temp
@@ -81,7 +81,7 @@ class Cube:
             self.cube[5] = np.transpose(self.cube[5] )
         
         elif (col == 2):
-            self.cube[4] = np.transpose(self.cube[4] )
+            self.cube[4] = np.rot90(self.cube[4], 1)
         else:
             return
     
@@ -102,14 +102,14 @@ class Cube:
         
     def display_cube(self):
         for i in range(6):
-            # if (i == 4 or i == 5):
-            #     print(np.flip(self.cube[i]))
-            #     print("")                
-            # else:
-            #     print(self.cube[i])
-            #     print("")
-            print(self.cube[i])
-            print("")
+            if (i == 4 or i == 3):
+                print(np.fliplr(self.cube[i]))
+                print("")                
+            else:
+                print(self.cube[i])
+                print("")
+            # print(self.cube[i])
+            # print("")
 
 test = Cube()
 test.turn_vertical(2)
