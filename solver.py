@@ -120,3 +120,18 @@ test.turn_vertical(2)
 # test.turn_sideways(0)
 print("------------------")
 test.display_cube()
+
+
+"""
+Test cases planned so far:
+i) R
+ii) U
+iii) R U 
+iv) U R 
+v) R U R 
+vi) U R U 
+vii) U' R' U'
+
+Way to check test case output: 
+--> Look at the self.cube 
+"""
