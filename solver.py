@@ -110,16 +110,10 @@ class Cube:
                 print("")
             # print(self.cube[i])
             # print("")
+    
+    def get_cube(self):
+        return self.cube
 
-test = Cube()
-test.turn_vertical(2)
-test.turn_horizontal(0)
-print("------------------")
-test.display_cube()
-test.turn_vertical(2)
-# test.turn_sideways(0)
-print("------------------")
-test.display_cube()
 
 
 """
