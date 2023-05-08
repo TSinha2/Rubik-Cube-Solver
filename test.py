@@ -342,6 +342,160 @@ def test_seven():
 
 
 
+def test_eight():
+    """
+    Tests the algorithm 'Li'
+    """
+    test_cube = Cube()
+    test_cube.turn_vertical(0)
+    cube_array = test_cube.get_cube()
+    correct_array = np.array(
+    [[['g' ,'w', 'w'],
+    ['g', 'w' ,'w'],
+    ['g', 'w' ,'w']],
+
+    [['b', 'y' ,'y'],
+    ['b', 'y', 'y'],
+    ['b', 'y' ,'y']],
+
+    [['w', 'b' ,'b'],
+    ['w', 'b' ,'b'],
+    ['w', 'b', 'b']],
+
+    [['g' ,'g' ,'y'],
+    ['g', 'g' ,'y'],
+    ['g' ,'g' ,'y']],
+
+    [['r', 'r' ,'r'],
+    ['r', 'r' ,'r'],
+    ['r', 'r' ,'r']],
+
+    [['o','o' ,'o'],
+    ['o', 'o' ,'o'],
+    ['o' ,'o' ,'o']]]
+    )
+    #print(np.equal(correct_array,fix_orientation(cube_array)))
+    assert (correct_array == fix_orientation(cube_array)).all()
+
+def test_nine():
+    """
+    Tests the algorithm 'Li Di'
+    """
+    test_cube = Cube()
+    test_cube.turn_vertical(0)
+    test_cube.turn_horizontal(2)
+    cube_array = test_cube.get_cube()
+    correct_array = np.array(
+    [[['w' ,'w', 'w'],
+    ['w', 'w' ,'w'],
+    ['g', 'g' ,'g']],
+
+    [['b', 'y' ,'y'],
+    ['b', 'y', 'y'],
+    ['b', 'y' ,'y']],
+
+    [['w', 'b' ,'b'],
+    ['w', 'b' ,'b'],
+    ['r', 'r', 'r']],
+
+    [['g' ,'g' ,'y'],
+    ['g', 'g' ,'y'],
+    ['o' ,'o' ,'o']],
+
+    [['r', 'r' ,'r'],
+    ['r', 'r' ,'r'],
+    ['g', 'g' ,'y']],
+
+    [['o','o' ,'o'],
+    ['o', 'o' ,'o'],
+    ['w' ,'b' ,'b']]]
+    )
+    #print(np.equal(correct_array,fix_orientation(cube_array)))
+    assert (correct_array == fix_orientation(cube_array)).all()
+
+
+def test_ten():
+    """
+    Tests the algorithm 'Li Di Li'
+    """
+    test_cube = Cube()
+    test_cube.turn_vertical(0)
+    test_cube.turn_horizontal(2)
+    test_cube.turn_vertical(0)
+    cube_array = test_cube.get_cube()
+    correct_array = np.array(
+    [[['o' ,'w', 'w'],
+    ['y', 'w' ,'w'],
+    ['y', 'g' ,'g']],
+
+    [['w', 'y' ,'y'],
+    ['w', 'y', 'y'],
+    ['r', 'y' ,'y']],
+
+    [['w', 'b' ,'b'],
+    ['w', 'b' ,'b'],
+    ['g', 'r', 'r']],
+
+    [['g' ,'g' ,'b'],
+    ['g', 'g' ,'b'],
+    ['o' ,'o' ,'b']],
+
+    [['r', 'r' ,'r'],
+    ['r', 'r' ,'r'],
+    ['g', 'g' ,'y']],
+
+    [['o','o' ,'b'],
+    ['o', 'o' ,'b'],
+    ['o' ,'o' ,'w']]]
+    )
+    #print(np.equal(correct_array,fix_orientation(cube_array)))
+    #test_cube.display_cube()
+    assert (correct_array == fix_orientation(cube_array)).all()
+
+def test_eleven():
+    """
+    Tests the algorithm 'D L Di Li'
+    """
+    test_cube = Cube()
+    test_cube.turn_horizontal(2)
+    test_cube.turn_horizontal(2)
+    test_cube.turn_horizontal(2)
+    test_cube.turn_vertical(0)
+    test_cube.turn_vertical(0)
+    test_cube.turn_vertical(0)
+    test_cube.turn_horizontal(2)
+    test_cube.turn_vertical(0)
+    cube_array = test_cube.get_cube()
+    correct_array = np.array(
+    [[['o' ,'w', 'w'],
+    ['w', 'w' ,'w'],
+    ['w', 'b' ,'o']],
+
+    [['y', 'y' ,'y'],
+    ['y', 'y', 'y'],
+    ['b', 'y' ,'y']],
+
+    [['w', 'b' ,'b'],
+    ['w', 'b' ,'b'],
+    ['b', 'b', 'b']],
+
+    [['g' ,'g' ,'g'],
+    ['g', 'g' ,'g'],
+    ['g' ,'o' ,'r']],
+
+    [['r', 'r' ,'r'],
+    ['r', 'r' ,'r'],
+    ['r', 'r' ,'w']],
+
+    [['o','o' ,'o'],
+    ['o', 'o' ,'o'],
+    ['g' ,'g' ,'y']]]
+    )
+    #print(np.equal(correct_array,fix_orientation(cube_array)))
+    #test_cube.display_cube()
+    assert (correct_array == fix_orientation(cube_array)).all()
+
+
 
 
 
@@ -355,4 +509,8 @@ if __name__ == "__main__":
     test_five()
     test_six()    
     test_seven()    
+    test_eight()
+    test_nine()
+    test_ten() 
+    test_eleven()   
     print("All tests passed")

@@ -78,7 +78,7 @@ class Cube:
 
 
         if (col == 0):
-            self.cube[5] = np.transpose(self.cube[5] )
+            self.cube[5] = np.rot90(self.cube[5], 1)
         
         elif (col == 2):
             self.cube[4] = np.rot90(self.cube[4], 1)
