@@ -38,7 +38,7 @@ class Cube:
         """
         temp = [i for i in self.cube[2][row]]
 
-        self.cube[2][row] = self.cube[4][row]
+        self.cube[2][row] = self.cube[4][row][::-1]
         self.cube[4][row] = self.cube[3][row]
         self.cube[3][row] = self.cube[5][row]
         self.cube[5][row] = temp
