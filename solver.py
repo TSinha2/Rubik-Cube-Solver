@@ -95,7 +95,7 @@ class Cube:
         temp = [i for i in self.cube[1][:, side_col]]
         self.cube[1][side_col] = self.cube[5][side_col]
         self.cube[5][:,side_col] = self.cube[0][:,side_col]
-        self.cube[0][side_col] = self.cube[4][side_col]
+        self.cube[0][2-side_col] = self.cube[4][side_col]
         self.cube[4][:, side_col] = temp
 
         if (side_col == 0):

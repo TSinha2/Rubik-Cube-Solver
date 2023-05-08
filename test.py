@@ -563,6 +563,45 @@ def test_twelve():
 
 
 
+def test_thirteen():
+    """
+    Tests the algorithm 'F'
+    """
+    test_cube = Cube()
+
+    test_cube.turn_sideways(2)
+ 
+    cube_array = test_cube.get_cube()
+    correct_array = np.array(
+    [[['r' ,'r', 'r'],
+    ['w', 'w' ,'w'],
+    ['w', 'w' ,'w']],
+
+    [['y', 'y' ,'y'],
+    ['y', 'y', 'y'],
+    ['o', 'o' ,'o']],
+
+    [['b', 'b' ,'b'],
+    ['b', 'b' ,'b'],
+    ['b', 'b', 'b']],
+
+    [['g' ,'g' ,'g'],
+    ['g', 'g' ,'g'],
+    ['g' ,'g' ,'g']],
+
+    [['y', 'r' ,'r'],
+    ['y', 'r' ,'r'],
+    ['y', 'r' ,'r']],
+
+    [['o','o','w'],
+    ['o', 'o' ,'w'],
+    ['o' ,'o' ,'w']]]
+    )
+    print(np.equal(correct_array,fix_orientation(cube_array)))
+    #test_cube.display_cube()
+    #assert (correct_array == fix_orientation(cube_array)).all()
+
+
 
 
 
@@ -581,4 +620,5 @@ if __name__ == "__main__":
     test_ten() 
     test_eleven()  
     test_twelve()
+    test_thirteen()    
     print("All tests passed")
