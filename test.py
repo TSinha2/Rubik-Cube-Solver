@@ -146,6 +146,44 @@ def test_two():
     # print(np.equal(correct_array,fix_orientation(cube_array)))
     assert (correct_array == fix_orientation(cube_array)).all()
 
+def test_three():
+    """
+    Tests the algorithm 'R U R'
+    """
+    test_cube = Cube()
+    test_cube.turn_vertical(2)
+    test_cube.turn_horizontal(0)
+    test_cube.turn_vertical(2)
+    cube_array = test_cube.get_cube()
+    correct_array = np.array(
+    [[['w' ,'w', 'y'],
+    ['w', 'w' ,'y'],
+    ['w', 'w' ,'o']],
+
+    [['y', 'y' ,'r'],
+    ['y', 'y', 'w'],
+    ['b', 'b' ,'w']],
+
+    [['r', 'r' ,'g'],
+    ['b', 'b' ,'g'],
+    ['b', 'b', 'g']],
+
+    [['b' ,'o' ,'o'],
+    ['y', 'g' ,'g'],
+    ['y' ,'g' ,'g']],
+
+    [['r', 'r' ,'y'],
+    ['r', 'r' ,'g'],
+    ['r', 'r' ,'g']],
+
+    [['b','b' ,'w'],
+    ['o', 'o' ,'o'],
+    ['o' ,'o' ,'o']]]
+    )
+    # print(np.equal(correct_array,fix_orientation(cube_array)))
+    assert (correct_array == fix_orientation(cube_array)).all()
+
+
 
 
 
@@ -154,4 +192,5 @@ if __name__ == "__main__":
     test_up()
     test_one()
     test_two()
+    test_three()
     print("All tests passed")
