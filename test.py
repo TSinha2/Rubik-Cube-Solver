@@ -460,11 +460,15 @@ def test_eleven():
     test_cube.turn_horizontal(2)
     test_cube.turn_horizontal(2)
     test_cube.turn_horizontal(2)
+
     test_cube.turn_vertical(0)
     test_cube.turn_vertical(0)
     test_cube.turn_vertical(0)
+
     test_cube.turn_horizontal(2)
+
     test_cube.turn_vertical(0)
+
     cube_array = test_cube.get_cube()
     correct_array = np.array(
     [[['o' ,'w', 'w'],
@@ -495,6 +499,69 @@ def test_eleven():
     #test_cube.display_cube()
     assert (correct_array == fix_orientation(cube_array)).all()
 
+def test_twelve():
+    """
+    Tests the algorithm 'R U L D Ri Ui Li Di'
+    """
+    test_cube = Cube()
+
+    test_cube.turn_vertical(2)
+
+    test_cube.turn_horizontal(0)
+
+    test_cube.turn_vertical(0)
+    test_cube.turn_vertical(0)
+    test_cube.turn_vertical(0)
+
+    test_cube.turn_horizontal(2)
+    test_cube.turn_horizontal(2)
+    test_cube.turn_horizontal(2)
+
+    test_cube.turn_vertical(2)
+    test_cube.turn_vertical(2)
+    test_cube.turn_vertical(2)
+
+    test_cube.turn_horizontal(0)
+    test_cube.turn_horizontal(0)
+    test_cube.turn_horizontal(0)
+
+    test_cube.turn_vertical(0)
+
+    test_cube.turn_horizontal(2)
+
+
+ 
+    cube_array = test_cube.get_cube()
+    correct_array = np.array(
+    [[['r' ,'w', 'w'],
+    ['b', 'w' ,'g'],
+    ['r', 'w' ,'w']],
+
+    [['o', 'y' ,'o'],
+    ['y', 'y', 'b'],
+    ['o', 'g' ,'o']],
+
+    [['b', 'o' ,'b'],
+    ['w', 'b' ,'y'],
+    ['y', 'r', 'b']],
+
+    [['g' ,'r' ,'g'],
+    ['w', 'g' ,'y'],
+    ['g' ,'o' ,'y']],
+
+    [['y', 'r' ,'y'],
+    ['g', 'r' ,'b'],
+    ['r', 'r' ,'r']],
+
+    [['w','b' ,'w'],
+    ['o', 'o' ,'g'],
+    ['g' ,'o' ,'b']]]
+    )
+    #print(np.equal(correct_array,fix_orientation(cube_array)))
+    #test_cube.display_cube()
+    assert (correct_array == fix_orientation(cube_array)).all()
+
+
 
 
 
@@ -512,5 +579,6 @@ if __name__ == "__main__":
     test_eight()
     test_nine()
     test_ten() 
-    test_eleven()   
+    test_eleven()  
+    test_twelve()
     print("All tests passed")
