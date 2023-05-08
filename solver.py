@@ -40,7 +40,7 @@ class Cube:
 
         self.cube[2][row] = self.cube[4][row][::-1]
         self.cube[4][row] = self.cube[3][row]
-        self.cube[3][row] = self.cube[5][row]
+        self.cube[3][row] = self.cube[5][row][::-1]
         self.cube[5][row] = temp
 
         # self.cube[4] = np.fliplr(self.cube[4])
@@ -52,7 +52,7 @@ class Cube:
             self.cube[1] = np.rot90(self.cube[1], -1)
         
         elif (row == 2):
-            self.cube[0] = np.rot90(self.cube[0], -1)
+            self.cube[0] = np.rot90(self.cube[0], 1)
         else:
             return
 
