@@ -1,4 +1,4 @@
-from solver import Cube
+from cube import Cube
 import numpy as np
 
 
