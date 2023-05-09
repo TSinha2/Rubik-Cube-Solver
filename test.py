@@ -311,7 +311,7 @@ def test_seven():
     # test_cube.turn_horizontal(0)
     # test_cube.turn_horizontal(0)
     # test_cube.turn_horizontal(0)
-
+    #
     test_cube.algorithm_parser("Ui Ri U U U")
     cube_array = test_cube.get_cube()
     correct_array = np.array(

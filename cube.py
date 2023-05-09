@@ -25,7 +25,8 @@ class Cube:
         cube = []
         cube.extend((white_face, yellow_face, blue_face, green_face, red_face, orange_face))
         self.cube = np.stack(cube, 0)
-    
+        #
+
     def turn_horizontal(self, row):
         """
         Function for the horizontal turns (U, D' in Rubik's Cube notation)

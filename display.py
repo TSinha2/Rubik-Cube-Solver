@@ -14,7 +14,7 @@ colors = {'y': (255, 255, 0),
             }
 
 
-
+#
 
 def draw_row(surface, left, top, row):
     for i in range(3):
