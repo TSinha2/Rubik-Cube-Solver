@@ -1,4 +1,3 @@
-from cgi import test
 from solver import Cube
 import numpy as np
 
