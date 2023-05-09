@@ -121,17 +121,17 @@ class Cube:
     
     def algorithm_parser(self, algorithm):
         algorithm = algorithm.split()
-        moves = "R Ri Li L F Fi B Bi U Ui D Di".split()
+        moves = "R Ri Li L F Fi B Bi U Ui D Di R' L' F' B' U' D'".split()
         for move in algorithm:
             assert (move in moves)
             if (move == 'R'):
                 self.turn_vertical(2)
 
-            elif (move == 'Ri'):
+            elif (move == 'Ri' or move == "R'"):
                 for i in range(3):
                     self.turn_vertical(2)
             
-            elif (move == 'Li'):
+            elif (move == 'Li' or move == "L'"):
                 self.turn_vertical(0)
             
             elif (move == 'L'):
@@ -141,11 +141,11 @@ class Cube:
             elif (move == 'U'):
                 self.turn_horizontal(0)
             
-            elif (move == 'Ui'):
+            elif (move == 'Ui' or move == "U'"):
                 for i in range(3):
                     self.turn_horizontal(0)
             
-            elif (move == 'Di'):
+            elif (move == 'Di' or move == "D'") :
                 self.turn_horizontal(2)
             
             elif (move == 'D'):
@@ -155,15 +155,18 @@ class Cube:
             elif (move == 'F'):
                 self.turn_sideways(2)
             
-            elif (move == 'Fi'):
+            elif (move == 'Fi' or move == "F'"):
                 for i in range(3):
                     self.turn_sideways(2)
             
             elif (move == 'B'):
                 for i in range(3):
                     self.turn_sideways(0)
-            else:
+
+            elif (move == 'Bi' or move == "B'"):
                 self.turn_sideways(0)
+            else:
+                pass
 
 
 

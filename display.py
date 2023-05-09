@@ -15,6 +15,7 @@ colors = {'y': (255, 255, 0),
             }
 
 test_cube = Cube()
+test_cube.algorithm_parser(" L U U F F R L Fi Ri U U Ri Fi U U L B B Di B B D F Di L B Ri Fi Ri Di R")
 frame_value = 5
 move_ticker = frame_value
 
