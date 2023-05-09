@@ -3,23 +3,32 @@ import pygame
 dimension = 30
 sticker_gap = 2
 face_gap = 100
+colors = {'y': (255, 255, 0),
+          'o': (242, 140, 40),
+          'b': (0,0,255),
+          'r': (255,0,0),
+          'g': (0,255,0),
+          'w':(255,255,255)
+            }
 
 
-def draw_row(surface, color, left, top):
+
+
+def draw_row(surface, left, top, row):
     for i in range(3):
-        pygame.Surface.fill(surface, color, [left + (dimension + sticker_gap)*i , top , dimension, dimension]) 
+        pygame.Surface.fill(surface, colors[row[i]], [left + (dimension + sticker_gap)*i , top , dimension, dimension]) 
 
-def draw_face(surface, color, left, top):
-    for i in range(3):
-        draw_row(surface, color, left, top+ (dimension + sticker_gap)*i) 
+# def draw_face(surface, color, left, top):
+#     for i in range(3):
+#         draw_row(surface, color, left, top+ (dimension + sticker_gap)*i) 
 
-def draw_cube(surface, left, top):
-    colors = [(255, 255, 0), (242, 140, 40), (0,0,255), (255,0,0), (0,255,0), (255,255,255)]
-    draw_face(surface, colors[0], left + face_gap, top)
-    for i in range(4):
-        draw_face(surface, colors[i+1], left + face_gap*i, top + face_gap)
+# def draw_cube(surface, left, top):
+#     colors = [(255, 255, 0), (242, 140, 40), (0,0,255), (255,0,0), (0,255,0), (255,255,255)]
+#     draw_face(surface, colors[0], left + face_gap, top)
+#     for i in range(4):
+#         draw_face(surface, colors[i+1], left + face_gap*i, top + face_gap)
 
-    draw_face(surface, colors[5], left + face_gap, top + 2*face_gap)
+#     draw_face(surface, colors[5], left + face_gap, top + 2*face_gap)
 
 
 # pygame setup
@@ -39,7 +48,8 @@ while running:
     screen.fill("grey")
 
     # RENDER the game
-    draw_cube(screen, 18, 18)
+    # draw_cube(screen, 18, 18)
+    draw_row(screen, 18, 18, ['w', 'w', 'r'])
 
     # flip() the display to put your work on screen
     pygame.display.flip()
