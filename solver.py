@@ -92,17 +92,17 @@ class Cube:
         Parameters: 
             side_col (int): which side_col number to turn (2 is F, 0 is B')
         """
-        temp = [i for i in self.cube[1][:, side_col]]
-        self.cube[1][side_col] = self.cube[5][side_col]
-        self.cube[5][:,side_col] = self.cube[0][:,side_col]
-        self.cube[0][2-side_col] = self.cube[4][side_col]
+        temp = [i for i in self.cube[1][side_col]]
+        self.cube[1][side_col] = self.cube[5][:,side_col][::-1]
+        self.cube[5][:,side_col] = self.cube[0][2-side_col]
+        self.cube[0][2-side_col] = self.cube[4][:,side_col][::-1]
         self.cube[4][:, side_col] = temp
 
         if (side_col == 0):
-            self.cube[3] = np.rot90(self.cube[3], 1)
+            self.cube[3] = np.rot90(self.cube[3], -1)
         
         elif (side_col == 2):
-            self.cube[2] = np.rot90(self.cube[2], 1)
+            self.cube[2] = np.rot90(self.cube[2], -1)
         else:
             return
 
