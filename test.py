@@ -700,6 +700,220 @@ def test_fifteen():
 
 
 
+def test_sixteen():
+    """
+    Tests the algorithm ' Bi '
+    """
+    test_cube = Cube()
+
+    test_cube.turn_sideways(0)
+
+
+    cube_array = test_cube.get_cube()
+    correct_array = np.array(
+    [[['w' ,'w', 'w'],
+    ['w', 'w' ,'w'],
+    ['r', 'r' , 'r']],
+
+    [['o', 'o' ,'o'],
+    ['y', 'y', 'y'],
+    ['y', 'y' ,'y']],
+
+    [['b', 'b' ,'b'],
+    ['b', 'b' ,'b'],
+    ['b', 'b', 'b']],
+
+    [['g' ,'g' ,'g'],
+    ['g', 'g' ,'g'],
+    ['g' ,'g' ,'g']],
+
+    [['r', 'r' ,'y'],
+    ['r', 'r' ,'y'],
+    ['r', 'r' ,'y']],
+
+    [['w','o','o'],
+    ['w', 'o' ,'o'],
+    ['w' ,'o' ,'o']]]
+    )
+    #print(np.equal(correct_array,fix_orientation(cube_array)))
+    #test_cube.display_cube()
+    assert (correct_array == fix_orientation(cube_array)).all()
+
+
+def test_seventeen():
+    """
+    Tests the algorithm ' Bi R Bi'
+    """
+    test_cube = Cube()
+
+    test_cube.turn_sideways(0)
+    test_cube.turn_vertical(2)
+    test_cube.turn_sideways(0)
+
+
+    cube_array = test_cube.get_cube()
+    correct_array = np.array(
+    [[['w' ,'w', 'g'],
+    ['w', 'w' ,'g'],
+    ['y', 'r' , 'r']],
+
+    [['w', 'w' ,'w'],
+    ['y', 'y', 'b'],
+    ['y', 'y' ,'b']],
+
+    [['b', 'b' ,'w'],
+    ['b', 'b' ,'w'],
+    ['b', 'b', 'r']],
+
+    [['g' ,'g' ,'g'],
+    ['g', 'g' ,'g'],
+    ['y' ,'y' ,'o']],
+
+    [['r', 'r' ,'o'],
+    ['r', 'r' ,'o'],
+    ['y', 'y' ,'b']],
+
+    [['r','o','o'],
+    ['r', 'o' ,'o'],
+    ['g' ,'o' ,'o']]]
+    )
+    #print(np.equal(correct_array,fix_orientation(cube_array)))
+    #test_cube.display_cube()
+    assert (correct_array == fix_orientation(cube_array)).all()
+
+
+
+def test_eighteen():
+    """
+    Tests the algorithm ' R U L D F B Ri Ui Li Di Fi Bi'
+    """
+    test_cube = Cube()
+
+    #R
+    test_cube.turn_vertical(2)
+    
+    #U
+    test_cube.turn_horizontal(0)
+
+    #L (Li * 3)
+    test_cube.turn_vertical(0)
+    test_cube.turn_vertical(0)
+    test_cube.turn_vertical(0)
+
+    #D (Di *3)
+    test_cube.turn_horizontal(2)
+    test_cube.turn_horizontal(2)
+    test_cube.turn_horizontal(2)
+
+
+    #F 
+    test_cube.turn_sideways(2)
+
+    #B (Bi * 3)
+    test_cube.turn_sideways(0)
+    test_cube.turn_sideways(0)
+    test_cube.turn_sideways(0)
+
+    #Ri (R * 3)
+    test_cube.turn_vertical(2)
+    test_cube.turn_vertical(2)
+    test_cube.turn_vertical(2)
+
+    #Ui (U * 3)
+    test_cube.turn_horizontal(0)
+    test_cube.turn_horizontal(0)
+    test_cube.turn_horizontal(0)
+
+    #Li
+    test_cube.turn_vertical(0)
+
+    #Di
+    test_cube.turn_horizontal(2)
+
+    #Fi
+    test_cube.turn_sideways(2)
+    test_cube.turn_sideways(2)
+    test_cube.turn_sideways(2)
+
+    #Bi
+    test_cube.turn_sideways(0)
+
+
+
+    cube_array = test_cube.get_cube()
+    correct_array = np.array(
+    [[['r' ,'g', 'b'],
+    ['r', 'w' ,'o'],
+    ['r', 'b' , 'w']],
+
+    [['o', 'y' ,'o'],
+    ['o', 'y', 'b'],
+    ['o', 'g' ,'y']],
+
+    [['b', 'y' ,'b'],
+    ['o', 'b' ,'b'],
+    ['b', 'w', 'o']],
+
+    [['g' ,'r' ,'g'],
+    ['g', 'g' ,'y'],
+    ['g' ,'w' ,'y']],
+
+    [['r', 'y' ,'y'],
+    ['r', 'r' ,'r'],
+    ['y', 'w' ,'r']],
+
+    [['w','b','w'],
+    ['o', 'o' ,'g'],
+    ['g' ,'w' ,'w']]]
+    )
+    #print(np.equal(correct_array,fix_orientation(cube_array)))
+    #test_cube.display_cube()
+    assert (correct_array == fix_orientation(cube_array)).all()
+
+
+def test_nineteen():
+    """
+    Tests the algorithm ' R Bi R'
+    """
+    test_cube = Cube()
+
+
+    test_cube.turn_vertical(2)
+    test_cube.turn_sideways(0)
+    test_cube.turn_vertical(2)
+
+
+    cube_array = test_cube.get_cube()
+    correct_array = np.array(
+    [[['w' ,'w', 'y'],
+    ['w', 'w' ,'g'],
+    ['r', 'r' , 'g']],
+
+    [['o', 'o' ,'w'],
+    ['y', 'y', 'w'],
+    ['y', 'y' ,'w']],
+
+    [['b', 'b' ,'g'],
+    ['b', 'b' ,'g'],
+    ['b', 'b', 'r']],
+
+    [['b' ,'g' ,'g'],
+    ['b', 'g' ,'g'],
+    ['o' ,'y' ,'y']],
+
+    [['r', 'r' ,'r'],
+    ['r', 'r' ,'r'],
+    ['b', 'y' ,'y']],
+
+    [['w','o','o'],
+    ['w', 'o' ,'o'],
+    ['g' ,'o' ,'o']]]
+    )
+    #print(np.equal(correct_array,fix_orientation(cube_array)))
+    #test_cube.display_cube()
+    assert (correct_array == fix_orientation(cube_array)).all()
+
+
 
 
 
@@ -720,5 +934,9 @@ if __name__ == "__main__":
     test_twelve()
     test_thirteen() 
     test_fourteen()   
-    test_fifteen()    
+    test_fifteen()   
+    test_sixteen()    
+    test_seventeen()  
+    test_eighteen() 
+    test_nineteen()     
     print("All tests passed")
