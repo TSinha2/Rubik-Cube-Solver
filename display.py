@@ -1,6 +1,7 @@
+from tkinter import Frame
 import pygame
 from cube import Cube
-from test import fix_orientation
+import numpy as np
 
 dimension = 30
 sticker_gap = 2
@@ -13,8 +14,10 @@ colors = {'y': (255, 255, 0),
           'w':(255,255,255)
             }
 
+test_cube = Cube()
+frame_value = 5
+move_ticker = frame_value
 
-#
 
 def draw_row(surface, left, top, row):
     for i in range(3):
@@ -28,7 +31,10 @@ def draw_cube(surface, left, top, cube):
     draw_face(surface, left + face_gap, top, cube[1])
     order_to_present = [5, 2, 4, 3]
     for i in range(2, 6):
-        draw_face(surface, left + face_gap*(i-2), top + face_gap, cube[order_to_present[i-2]])
+        if (i == 5 or i == 6):
+            draw_face(surface, left + face_gap*(i-2), top + face_gap, np.fliplr(cube[order_to_present[i-2]]))
+        else:
+            draw_face(surface, left + face_gap*(i-2), top + face_gap, cube[order_to_present[i-2]])
 
     draw_face(surface, left + face_gap, top + 2*face_gap, cube[0])
 
@@ -45,23 +51,54 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        
 
     # fill the screen with a color to wipe away anything from last frame
     screen.fill("grey")
 
     # RENDER the game
     # draw_cube(screen, 18, 18)
-    test_cube = Cube()
-    test_cube.turn_horizontal(0)
-    test_cube.turn_vertical(2)
-    test_cube.turn_horizontal(0)
-    
 
-    draw_cube(screen, 18, 18, fix_orientation(test_cube.get_cube()))
+
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_r]:
+        if move_ticker == 0:
+            move_ticker = frame_value
+            test_cube.algorithm_parser("R")
+    
+    if keys[pygame.K_l]:
+        if move_ticker == 0:
+            move_ticker = frame_value
+            test_cube.algorithm_parser("L")
+
+    if keys[pygame.K_u]:
+        if move_ticker == 0:
+            move_ticker = frame_value
+            test_cube.algorithm_parser("U")
+
+    if keys[pygame.K_d]:
+        if move_ticker == 0:
+            move_ticker = frame_value
+            test_cube.algorithm_parser("D")
+
+    if keys[pygame.K_b]:
+        if move_ticker == 0:
+            move_ticker = frame_value
+            test_cube.algorithm_parser("B")
+
+    if keys[pygame.K_f]:
+        if move_ticker == 0:
+            move_ticker = frame_value
+            test_cube.algorithm_parser("F")
+
+
+    draw_cube(screen, 18, 18, test_cube.get_cube())
 
     # flip() the display to put your work on screen
     pygame.display.flip()
+    if move_ticker > 0:
+        move_ticker -= 1
 
-    clock.tick(60)  # limits FPS to 60
+    clock.tick(30)  # limits FPS to 60
 
 pygame.quit()
