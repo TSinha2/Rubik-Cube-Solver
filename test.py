@@ -1,3 +1,4 @@
+from cgi import test
 from cube import Cube
 import numpy as np
 
@@ -301,15 +302,17 @@ def test_seven():
     Tests the algorithm 'Ui Ri U U U'
     """
     test_cube = Cube()
-    test_cube.turn_horizontal(0)
-    test_cube.turn_horizontal(0)
-    test_cube.turn_horizontal(0)
-    test_cube.turn_vertical(2)
-    test_cube.turn_vertical(2)
-    test_cube.turn_vertical(2)
-    test_cube.turn_horizontal(0)
-    test_cube.turn_horizontal(0)
-    test_cube.turn_horizontal(0)
+    # test_cube.turn_horizontal(0)
+    # test_cube.turn_horizontal(0)
+    # test_cube.turn_horizontal(0)
+    # test_cube.turn_vertical(2)
+    # test_cube.turn_vertical(2)
+    # test_cube.turn_vertical(2)
+    # test_cube.turn_horizontal(0)
+    # test_cube.turn_horizontal(0)
+    # test_cube.turn_horizontal(0)
+
+    test_cube.algorithm_parser("Ui Ri U U U")
     cube_array = test_cube.get_cube()
     correct_array = np.array(
     [[['w' ,'w', 'o'],
@@ -381,8 +384,9 @@ def test_nine():
     Tests the algorithm 'Li Di'
     """
     test_cube = Cube()
-    test_cube.turn_vertical(0)
-    test_cube.turn_horizontal(2)
+    # test_cube.turn_vertical(0)
+    # test_cube.turn_horizontal(2)
+    test_cube.algorithm_parser("Li Di")
     cube_array = test_cube.get_cube()
     correct_array = np.array(
     [[['w' ,'w', 'w'],
@@ -418,9 +422,10 @@ def test_ten():
     Tests the algorithm 'Li Di Li'
     """
     test_cube = Cube()
-    test_cube.turn_vertical(0)
-    test_cube.turn_horizontal(2)
-    test_cube.turn_vertical(0)
+    # test_cube.turn_vertical(0)
+    # test_cube.turn_horizontal(2)
+    # test_cube.turn_vertical(0)
+    test_cube.algorithm_parser("Li Di Li")
     cube_array = test_cube.get_cube()
     correct_array = np.array(
     [[['o' ,'w', 'w'],
@@ -456,17 +461,19 @@ def test_eleven():
     Tests the algorithm 'D L Di Li'
     """
     test_cube = Cube()
-    test_cube.turn_horizontal(2)
-    test_cube.turn_horizontal(2)
-    test_cube.turn_horizontal(2)
+    # test_cube.turn_horizontal(2)
+    # test_cube.turn_horizontal(2)
+    # test_cube.turn_horizontal(2)
 
-    test_cube.turn_vertical(0)
-    test_cube.turn_vertical(0)
-    test_cube.turn_vertical(0)
+    # test_cube.turn_vertical(0)
+    # test_cube.turn_vertical(0)
+    # test_cube.turn_vertical(0)
 
-    test_cube.turn_horizontal(2)
+    # test_cube.turn_horizontal(2)
 
-    test_cube.turn_vertical(0)
+    # test_cube.turn_vertical(0)
+    
+    test_cube.algorithm_parser("D L Di Li")
 
     cube_array = test_cube.get_cube()
     correct_array = np.array(
@@ -504,29 +511,30 @@ def test_twelve():
     """
     test_cube = Cube()
 
-    test_cube.turn_vertical(2)
+    # test_cube.turn_vertical(2)
 
-    test_cube.turn_horizontal(0)
+    # test_cube.turn_horizontal(0)
 
-    test_cube.turn_vertical(0)
-    test_cube.turn_vertical(0)
-    test_cube.turn_vertical(0)
+    # test_cube.turn_vertical(0)
+    # test_cube.turn_vertical(0)
+    # test_cube.turn_vertical(0)
 
-    test_cube.turn_horizontal(2)
-    test_cube.turn_horizontal(2)
-    test_cube.turn_horizontal(2)
+    # test_cube.turn_horizontal(2)
+    # test_cube.turn_horizontal(2)
+    # test_cube.turn_horizontal(2)
 
-    test_cube.turn_vertical(2)
-    test_cube.turn_vertical(2)
-    test_cube.turn_vertical(2)
+    # test_cube.turn_vertical(2)
+    # test_cube.turn_vertical(2)
+    # test_cube.turn_vertical(2)
 
-    test_cube.turn_horizontal(0)
-    test_cube.turn_horizontal(0)
-    test_cube.turn_horizontal(0)
+    # test_cube.turn_horizontal(0)
+    # test_cube.turn_horizontal(0)
+    # test_cube.turn_horizontal(0)
 
-    test_cube.turn_vertical(0)
+    # test_cube.turn_vertical(0)
 
-    test_cube.turn_horizontal(2)
+    # test_cube.turn_horizontal(2)
+    test_cube.algorithm_parser("R U L D Ri Ui Li Di")
 
 
  
@@ -568,8 +576,9 @@ def test_thirteen():
     """
     test_cube = Cube()
 
-    test_cube.turn_sideways(2)
- 
+    # test_cube.turn_sideways(2)
+    test_cube.algorithm_parser("F")
+
     cube_array = test_cube.get_cube()
     correct_array = np.array(
     [[['r' ,'r', 'r'],
@@ -606,10 +615,11 @@ def test_fourteen():
     Tests the algorithm 'F R F'
     """
     test_cube = Cube()
+    test_cube.algorithm_parser("F R F")
 
-    test_cube.turn_sideways(2)
-    test_cube.turn_vertical(2)
-    test_cube.turn_sideways(2)
+    # test_cube.turn_sideways(2)
+    # test_cube.turn_vertical(2)
+    # test_cube.turn_sideways(2)
 
  
     cube_array = test_cube.get_cube()
@@ -649,23 +659,25 @@ def test_fifteen():
     """
     test_cube = Cube()
 
-    test_cube.turn_sideways(2)
+    # test_cube.turn_sideways(2)
 
-    test_cube.turn_vertical(2)
+    # test_cube.turn_vertical(2)
 
-    test_cube.turn_horizontal(0)
+    # test_cube.turn_horizontal(0)
 
-    test_cube.turn_vertical(2)
-    test_cube.turn_vertical(2)
-    test_cube.turn_vertical(2)
+    # test_cube.turn_vertical(2)
+    # test_cube.turn_vertical(2)
+    # test_cube.turn_vertical(2)
 
-    test_cube.turn_horizontal(0)
-    test_cube.turn_horizontal(0)
-    test_cube.turn_horizontal(0)
+    # test_cube.turn_horizontal(0)
+    # test_cube.turn_horizontal(0)
+    # test_cube.turn_horizontal(0)
 
-    test_cube.turn_sideways(2)
-    test_cube.turn_sideways(2)
-    test_cube.turn_sideways(2)
+    # test_cube.turn_sideways(2)
+    # test_cube.turn_sideways(2)
+    # test_cube.turn_sideways(2)
+    test_cube.algorithm_parser("F R U Ri Ui Fi")
+
 
     cube_array = test_cube.get_cube()
     correct_array = np.array(
@@ -705,7 +717,8 @@ def test_sixteen():
     """
     test_cube = Cube()
 
-    test_cube.turn_sideways(0)
+    #test_cube.turn_sideways(0)
+    test_cube.algorithm_parser("Bi")    
 
 
     cube_array = test_cube.get_cube()
@@ -745,9 +758,11 @@ def test_seventeen():
     """
     test_cube = Cube()
 
-    test_cube.turn_sideways(0)
-    test_cube.turn_vertical(2)
-    test_cube.turn_sideways(0)
+    # test_cube.turn_sideways(0)
+    # test_cube.turn_vertical(2)
+    # test_cube.turn_sideways(0)
+
+    test_cube.algorithm_parser("Bi R Bi")
 
 
     cube_array = test_cube.get_cube()
@@ -788,56 +803,57 @@ def test_eighteen():
     """
     test_cube = Cube()
 
-    #R
-    test_cube.turn_vertical(2)
+    # #R
+    # test_cube.turn_vertical(2)
     
-    #U
-    test_cube.turn_horizontal(0)
+    # #U
+    # test_cube.turn_horizontal(0)
 
-    #L (Li * 3)
-    test_cube.turn_vertical(0)
-    test_cube.turn_vertical(0)
-    test_cube.turn_vertical(0)
+    # #L (Li * 3)
+    # test_cube.turn_vertical(0)
+    # test_cube.turn_vertical(0)
+    # test_cube.turn_vertical(0)
 
-    #D (Di *3)
-    test_cube.turn_horizontal(2)
-    test_cube.turn_horizontal(2)
-    test_cube.turn_horizontal(2)
-
-
-    #F 
-    test_cube.turn_sideways(2)
-
-    #B (Bi * 3)
-    test_cube.turn_sideways(0)
-    test_cube.turn_sideways(0)
-    test_cube.turn_sideways(0)
-
-    #Ri (R * 3)
-    test_cube.turn_vertical(2)
-    test_cube.turn_vertical(2)
-    test_cube.turn_vertical(2)
-
-    #Ui (U * 3)
-    test_cube.turn_horizontal(0)
-    test_cube.turn_horizontal(0)
-    test_cube.turn_horizontal(0)
-
-    #Li
-    test_cube.turn_vertical(0)
-
-    #Di
-    test_cube.turn_horizontal(2)
-
-    #Fi
-    test_cube.turn_sideways(2)
-    test_cube.turn_sideways(2)
-    test_cube.turn_sideways(2)
-
-    #Bi
-    test_cube.turn_sideways(0)
+    # #D (Di *3)
+    # test_cube.turn_horizontal(2)
+    # test_cube.turn_horizontal(2)
+    # test_cube.turn_horizontal(2)
 
 
+    # #F 
+    # test_cube.turn_sideways(2)
+
+    # #B (Bi * 3)
+    # test_cube.turn_sideways(0)
+    # test_cube.turn_sideways(0)
+    # test_cube.turn_sideways(0)
+
+    # #Ri (R * 3)
+    # test_cube.turn_vertical(2)
+    # test_cube.turn_vertical(2)
+    # test_cube.turn_vertical(2)
+
+    # #Ui (U * 3)
+    # test_cube.turn_horizontal(0)
+    # test_cube.turn_horizontal(0)
+    # test_cube.turn_horizontal(0)
+
+    # #Li
+    # test_cube.turn_vertical(0)
+
+    # #Di
+    # test_cube.turn_horizontal(2)
+
+    # #Fi
+    # test_cube.turn_sideways(2)
+    # test_cube.turn_sideways(2)
+    # test_cube.turn_sideways(2)
+
+    # #Bi
+    # test_cube.turn_sideways(0)
+
+
+    test_cube.algorithm_parser("R U L D F B Ri Ui Li Di Fi Bi")
 
     cube_array = test_cube.get_cube()
     correct_array = np.array(
@@ -877,9 +893,11 @@ def test_nineteen():
     test_cube = Cube()
 
 
-    test_cube.turn_vertical(2)
-    test_cube.turn_sideways(0)
-    test_cube.turn_vertical(2)
+    # test_cube.turn_vertical(2)
+    # test_cube.turn_sideways(0)
+    # test_cube.turn_vertical(2)
+
+    test_cube.algorithm_parser("R Bi R")
 
 
     cube_array = test_cube.get_cube()

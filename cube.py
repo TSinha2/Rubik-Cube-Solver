@@ -118,6 +118,57 @@ class Cube:
             # print(self.cube[i])
             # print("")
     
+    def algorithm_parser(self, algorithm):
+        algorithm = algorithm.split()
+        moves = "R Ri Li L F Fi B Bi U Ui D Di".split()
+        for move in algorithm:
+            assert (move in moves)
+            if (move == 'R'):
+                self.turn_vertical(2)
+
+            elif (move == 'Ri'):
+                for i in range(3):
+                    self.turn_vertical(2)
+            
+            elif (move == 'Li'):
+                self.turn_vertical(0)
+            
+            elif (move == 'L'):
+                for i in range(3):
+                    self.turn_vertical(0)
+            
+            elif (move == 'U'):
+                self.turn_horizontal(0)
+            
+            elif (move == 'Ui'):
+                for i in range(3):
+                    self.turn_horizontal(0)
+            
+            elif (move == 'Di'):
+                self.turn_horizontal(2)
+            
+            elif (move == 'D'):
+                for i in range(3):
+                    self.turn_horizontal(2)
+            
+            elif (move == 'F'):
+                self.turn_sideways(2)
+            
+            elif (move == 'Fi'):
+                for i in range(3):
+                    self.turn_sideways(2)
+            
+            elif (move == 'B'):
+                for i in range(3):
+                    self.turn_sideways(0)
+            else:
+                self.turn_sideways(0)
+
+
+
+
+
+    
     def get_cube(self):
         return self.cube
 
