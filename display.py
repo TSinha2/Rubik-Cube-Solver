@@ -15,7 +15,7 @@ colors = {'y': (255, 255, 0),
             }
 
 test_cube = Cube()
-test_cube.algorithm_parser(" L U U F F R L Fi Ri U U Ri Fi U U L B B Di B B D F Di L B Ri Fi Ri Di R")
+#test_cube.algorithm_parser(" L U U F F R L Fi Ri U U Ri Fi U U L B B Di B B D F Di L B Ri Fi Ri Di R")
 frame_value = 5
 move_ticker = frame_value
 
@@ -32,7 +32,7 @@ def draw_cube(surface, left, top, cube):
     draw_face(surface, left + face_gap, top, cube[1])
     order_to_present = [5, 2, 4, 3]
     for i in range(2, 6):
-        if (i == 5 or i == 6):
+        if (order_to_present[i-2] == 4 or order_to_present[i-2] == 3):
             draw_face(surface, left + face_gap*(i-2), top + face_gap, np.fliplr(cube[order_to_present[i-2]]))
         else:
             draw_face(surface, left + face_gap*(i-2), top + face_gap, cube[order_to_present[i-2]])
