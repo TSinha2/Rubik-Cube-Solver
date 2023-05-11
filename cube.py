@@ -1,4 +1,5 @@
 import numpy as np
+from copy import deepcopy
 
 class Cube:
     def __init__(self):
@@ -168,9 +169,11 @@ class Cube:
             else:
                 pass
 
-
-
-
+    def save_state(self):
+            self.save = deepcopy(self.cube)
+        
+    def restore_state(self):
+            self.cube = deepcopy(self.save)
 
     
     def get_cube(self):
