@@ -2,6 +2,7 @@ from tkinter import Frame
 import pygame
 from cube import Cube
 import numpy as np
+from solver import Solver
 
 dimension = 30
 sticker_gap = 2
@@ -15,7 +16,9 @@ colors = {'y': (255, 255, 0),
             }
 
 test_cube = Cube()
-#test_cube.algorithm_parser(" L U U F F R L Fi Ri U U Ri Fi U U L B B Di B B D F Di L B Ri Fi Ri Di R")
+test_cube.algorithm_parser("B' R U' D R U' D D  B' U U R' F R' L F' D' B' U F F L' B D' F' U' R R B'")
+a = Solver(test_cube)
+
 frame_value = 5
 move_ticker = frame_value
 
@@ -91,6 +94,10 @@ while running:
         if move_ticker == 0:
             move_ticker = frame_value
             test_cube.algorithm_parser("F")
+    if keys[pygame.K_g]:
+        if move_ticker == 0:
+            move_ticker = frame_value
+            a.cross()
 
 
     draw_cube(screen, 18, 18, test_cube.get_cube())
