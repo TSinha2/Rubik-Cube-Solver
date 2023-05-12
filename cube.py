@@ -122,7 +122,7 @@ class Cube:
     
     def algorithm_parser(self, algorithm):
         algorithm = algorithm.split()
-        moves = "R Ri Li L F Fi B Bi U Ui D Di R' L' F' B' U' D'".split()
+        moves = "R Ri Li L F Fi B Bi U Ui D Di R' L' F' B' U' D' U2 D2 F2 B2 R2 L2".split()
         for move in algorithm:
             assert (move in moves)
             if (move == 'R'):
@@ -131,6 +131,10 @@ class Cube:
             elif (move == 'Ri' or move == "R'"):
                 for i in range(3):
                     self.turn_vertical(2)
+
+            elif (move == 'R2'):
+                for i in range(2):
+                    self.turn_vertical(2)
             
             elif (move == 'Li' or move == "L'"):
                 self.turn_vertical(0)
@@ -138,19 +142,32 @@ class Cube:
             elif (move == 'L'):
                 for i in range(3):
                     self.turn_vertical(0)
-            
+
+            elif (move == 'L2'):
+                for i in range(2):
+                    self.turn_vertical(0)
+
             elif (move == 'U'):
                 self.turn_horizontal(0)
             
             elif (move == 'Ui' or move == "U'"):
                 for i in range(3):
                     self.turn_horizontal(0)
+
+            elif (move == 'U2' ):
+                for i in range(2):
+                    self.turn_horizontal(0)
+
             
             elif (move == 'Di' or move == "D'") :
                 self.turn_horizontal(2)
             
             elif (move == 'D'):
                 for i in range(3):
+                    self.turn_horizontal(2)
+
+            elif (move == 'D2'):
+                for i in range(2):
                     self.turn_horizontal(2)
             
             elif (move == 'F'):
@@ -159,6 +176,10 @@ class Cube:
             elif (move == 'Fi' or move == "F'"):
                 for i in range(3):
                     self.turn_sideways(2)
+
+            elif (move == 'F2'):
+                for i in range(2):
+                    self.turn_sideways(2)                    
             
             elif (move == 'B'):
                 for i in range(3):
@@ -166,6 +187,11 @@ class Cube:
 
             elif (move == 'Bi' or move == "B'"):
                 self.turn_sideways(0)
+
+            elif (move == 'B2'):
+                for i in range(2):
+                    self.turn_sideways(0)
+
             else:
                 pass
 
