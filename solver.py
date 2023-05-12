@@ -68,6 +68,7 @@ def two_move_white_onto_yellow(move_one, move_two):
         return ' '.join(i for i in moves)
     else:
         moves = []
+        moves.append(move_one)
         moves.append(one_move_white_onto_yellow(move_two))
         moves.append(one_move_white_onto_yellow(' '.join(move_one for i in range(3))))
         return ' '.join(i for i in moves)
@@ -88,52 +89,59 @@ def cross():
         if face_index == 1:
             pass
 
-        elif face_index == 0:
-            initial_white_edge_count = white_edge_count()
-            unsolved_cube.save_state()
-            u_turns = 0
-            if row == 1:
-                if row_index == 2:
-                    moves.append(one_move_white_onto_yellow("R R"))
-                if row_index == 0:
-                    moves.append(one_move_white_onto_yellow("L L"))
-            if row == 0:
-                moves.append(one_move_white_onto_yellow("F F"))
-            if row == 2:
-                moves.append(one_move_white_onto_yellow("B B"))
+        # elif face_index == 0:
+        #     initial_white_edge_count = white_edge_count()
+        #     unsolved_cube.save_state()
+        #     u_turns = 0
+        #     if row == 1:
+        #         if row_index == 2:
+        #             moves.append(one_move_white_onto_yellow("R R"))
+        #         if row_index == 0:
+        #             moves.append(one_move_white_onto_yellow("L L"))
+        #     if row == 0:
+        #         moves.append(one_move_white_onto_yellow("F F"))
+        #     if row == 2:
+        #         moves.append(one_move_white_onto_yellow("B B"))
 
-        elif face_index == 2:
-            print("HERE")
-            if row == 1 and row_index == 2:
-                moves.append(one_move_white_onto_yellow("R"))
-            if row == 1 and row_index == 0:
-                moves.append(one_move_white_onto_yellow("Li"))
-            if row == 0:
-                moves.append(two_move_white_onto_yellow("F", "R"))
-            if row == 2:
-                moves.append(two_move_white_onto_yellow("F", "Li"))
+        # elif face_index == 2:
+        #     if row == 1 and row_index and face[row][row_index] == 'w' == 2:
+        #         moves.append(one_move_white_onto_yellow("R"))
+        #     if row == 1 and row_index and face[row][row_index] == 'w' == 0:
+        #         moves.append(one_move_white_onto_yellow("Li"))
+        #     if row == 0 and face[row][row_index] == 'w':
+        #         moves.append(two_move_white_onto_yellow("F", "R"))
+        #     if row == 2 and face[row][row_index] == 'w':
+        #         moves.append(two_move_white_onto_yellow("F", "Li"))
 
         # elif face_index == 3:
-        #     # Accounting for flipped face
-        #     if row == 1 and row_index == 2:
+        #     if row == 1 and row_index == 2 and face[row][row_index] == 'w':
         #         moves.append(one_move_white_onto_yellow("Ri"))
-        #     if row == 1 and row_index == 0:
+        #     if row == 1 and row_index == 0 and face[row][row_index] == 'w':
         #         moves.append(one_move_white_onto_yellow("L"))
-        #     if row == 0:
+        #     if row == 0 and face[row][row_index] == 'w':
         #         moves.append(two_move_white_onto_yellow("Bi", "Ri"))
-        #     if row == 2:
+        #     if row == 2 and face[row][row_index] == 'w':
         #         moves.append(two_move_white_onto_yellow("Bi", "L"))
         
-        # elif face_index == 4:
-        #     if row == 1 and row_index == 0:
-        #         moves.append(one_move_white_onto_yellow("B"))
-        #     if row == 1 and row_index == 2:
-        #         moves.append(one_move_white_onto_yellow("Fi"))
-        #     # if row == 0:
-        #     #     moves.append(two_move_white_onto_yellow("Bi", "Ri"))
-        #     # if row == 2:
-        #     #     moves.append(two_move_white_onto_yellow("Bi", "L"))
+        elif face_index == 4:
+            if row == 1 and row_index == 0 and face[row][row_index] == 'w':
+                moves.append(one_move_white_onto_yellow("B"))
+            if row == 1 and row_index == 2 and face[row][row_index] == 'w':
+                moves.append(one_move_white_onto_yellow("Fi"))
+            if row == 0 and face[row][row_index] == 'w':
+                moves.append(two_move_white_onto_yellow("Ri", "Fi"))
+            if row == 2 and face[row][row_index] == 'w':
+                moves.append(two_move_white_onto_yellow("Ri", "B"))
             
+        # elif face_index == 5:
+        #     if row == 1 and row_index == 0 and face[row][row_index] == 'w':
+        #         moves.append(one_move_white_onto_yellow("Bi"))
+        #     if row == 1 and row_index == 2 and face[row][row_index] == 'w':
+        #         moves.append(one_move_white_onto_yellow("F"))
+        #     if row == 0 and face[row][row_index] == 'w':
+        #         moves.append(two_move_white_onto_yellow("Li", "Bi"))
+        #     if row == 2 and face[row][row_index] == 'w':
+        #         moves.append(two_move_white_onto_yellow("Li", "F"))
 
 
 
@@ -144,9 +152,12 @@ def cross():
 
 
 
-unsolved_cube.algorithm_parser("R U L D F B Ri Ui Li Di Fi Bi R")
+unsolved_cube.algorithm_parser(" L U U F F R L Fi Ri U U Ri Fi U U L B B Di B B D F Di L B Ri Fi Ri Di R R R")
 #unsolved_cube.algorithm_parser("F L D")
 print(cross())
+print(cross())
+unsolved_cube.display_cube()
+#unsolved_cube.algorithm_parser("Di R")
 # print(white_edge_count())
 #b = find_white_edges()
 # unsolved_cube.algorithm_parser("F R F")
