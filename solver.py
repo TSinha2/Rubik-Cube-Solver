@@ -79,10 +79,6 @@ class Solver:
             moves.append(self.one_move_white_onto_yellow(' '.join(move_one for i in range(3))))
             return ' '.join(i for i in moves)
             
-
-
-
-
     def all_white_onto_yellow(self):
         white_edges = self.find_white_edges()
         faces = self.unsolved_cube.get_cube()
@@ -146,8 +142,6 @@ class Solver:
                 if row == 2 and face[row][row_index] == 'w':
                     moves.append(self.two_move_white_onto_yellow("Li", "F"))
 
-
-
         return moves
 
     def one_yellow_to_white(self, face_index, color, position):
@@ -160,10 +154,6 @@ class Solver:
 
         return moves
         
-            
-
-
-
     def yellow_to_white(self):
         moves = []
         faces = self.unsolved_cube.get_cube()
@@ -215,7 +205,26 @@ class Solver:
     
 
 
+"""
+Solving the first layer (i.e. solve the white face)
 
+Three cases:
+
+1) White corner piece is oriented correctly
+    -> If R/L' results in the same color as 7th piece on the 6th/8th piece, do one of the following:
+        -> R' F R F' (8th)
+        -> L F' L F  (6th)
+
+2) White not oriented properly -- on third layer
+    -> Put piece on top of white unsolved piece (keep track of unsolved pieces)
+        -> R/L' U2 R'/L (make it case one and solve)
+
+3) White not oriented properly 
+    -> Li U L
+    -> R U' R'
+    (i.e. make it case one and solve)
+
+"""
 
 
 
