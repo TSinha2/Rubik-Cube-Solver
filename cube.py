@@ -26,6 +26,14 @@ class Cube:
         cube = []
         cube.extend((white_face, yellow_face, blue_face, green_face, red_face, orange_face))
         self.cube = np.stack(cube, 0)
+        self.top = 1
+        self.bot = 0
+        self.right = 5
+        self.left = 4
+        self.face = 2
+        self.back = 3
+
+
         #
 
     def turn_horizontal(self, row):
@@ -37,12 +45,12 @@ class Cube:
         Return:
             None
         """
-        temp = [i for i in self.cube[2][row]]
+        temp = [i for i in self.cube[self.face][row]]
 
-        self.cube[2][row] = self.cube[4][row][::-1]
-        self.cube[4][row] = self.cube[3][row]
-        self.cube[3][row] = self.cube[5][row][::-1]
-        self.cube[5][row] = temp
+        self.cube[self.face][row] = self.cube[self.left][row][::-1]
+        self.cube[self.left][row] = self.cube[self.back][row]
+        self.cube[self.back][row] = self.cube[self.right][row][::-1]
+        self.cube[self.right][row] = temp
 
         # self.cube[4] = np.fliplr(self.cube[4])
         # self.cube[4] = np.flipud(self.cube[4])
@@ -50,10 +58,10 @@ class Cube:
 
 
         if (row == 0):
-            self.cube[1] = np.rot90(self.cube[1], -1)
+            self.cube[self.top] = np.rot90(self.cube[self.top], -1)
         
         elif (row == 2):
-            self.cube[0] = np.rot90(self.cube[0], 1)
+            self.cube[self.bot] = np.rot90(self.cube[self.bot], 1)
         else:
             return
 
@@ -67,22 +75,22 @@ class Cube:
         Return: 
             None
         """
-        temp = [i for i in self.cube[0][:, col]]
+        temp = [i for i in self.cube[self.bot][:, col]]
 
-        self.cube[0][:, col] = self.cube[3][:, col][::-1]
-        self.cube[3][:, col] = self.cube[1][:, col][::-1]
-        self.cube[1][:, col] = self.cube[2][:, col]
-        self.cube[2][:, col] = temp
+        self.cube[self.bot][:, col] = self.cube[self.back][:, col][::-1]
+        self.cube[self.back][:, col] = self.cube[self.top][:, col][::-1]
+        self.cube[self.top][:, col] = self.cube[self.face][:, col]
+        self.cube[self.face][:, col] = temp
 
         # self.cube[4] = np.fliplr(self.cube[4])
         # self.cube[4] = np.flipud(self.cube[4])
 
 
         if (col == 0):
-            self.cube[5] = np.rot90(self.cube[5], 1)
+            self.cube[self.right] = np.rot90(self.cube[self.right], 1)
         
         elif (col == 2):
-            self.cube[4] = np.rot90(self.cube[4], 1)
+            self.cube[self.left] = np.rot90(self.cube[self.left], 1)
         else:
             return
     
@@ -93,17 +101,17 @@ class Cube:
         Parameters: 
             side_col (int): which side_col number to turn (2 is F, 0 is B')
         """
-        temp = [i for i in self.cube[1][side_col]]
-        self.cube[1][side_col] = self.cube[5][:,side_col][::-1]
-        self.cube[5][:,side_col] = self.cube[0][2-side_col]
-        self.cube[0][2-side_col] = self.cube[4][:,side_col][::-1]
-        self.cube[4][:, side_col] = temp
+        temp = [i for i in self.cube[self.top][side_col]]
+        self.cube[self.top][side_col] = self.cube[self.right][:,side_col][::-1]
+        self.cube[self.right][:,side_col] = self.cube[self.bot][2-side_col]
+        self.cube[self.bot][2-side_col] = self.cube[self.left][:,side_col][::-1]
+        self.cube[self.left][:, side_col] = temp
 
         if (side_col == 0):
-            self.cube[3] = np.rot90(self.cube[3], -1)
+            self.cube[self.back] = np.rot90(self.cube[self.back], -1)
         
         elif (side_col == 2):
-            self.cube[2] = np.rot90(self.cube[2], -1)
+            self.cube[self.face] = np.rot90(self.cube[self.face], -1)
         else:
             return
 
@@ -200,6 +208,20 @@ class Cube:
         
     def restore_state(self):
             self.cube = deepcopy(self.save)
+    
+    def change_orientation(self, front, left, right):
+        # Assuming bot/top are fixed
+        a = [self.face, self.back, self.right, self.left]
+        for i in a:
+            print("Initial: " + str(i))
+        assert front in [2,3,4,5] 
+        self.face = front
+        self.back = front+1 if (front == 2 or front == 4) else front-1
+        self.right = right
+        self.left = left
+        for i in a:
+            print("New: " + str(i))
+
 
     
     def get_cube(self):

@@ -16,7 +16,12 @@ colors = {'y': (255, 255, 0),
             }
 
 test_cube = Cube()
-test_cube.algorithm_parser("B' R U' D R U' D D  B' U U R' F R' L F' D' B' U F F L' B D' F' U' R R B'")
+# test_cube.algorithm_parser("B' R U' D R U' D D  B' U U R' F R' L F' D' B' U F F L' B D' F' U' R R B'")
+test_cube.change_orientation(4,2,3)
+test_cube.algorithm_parser("R")
+test_cube.change_orientation(2,5,4)
+# test_cube.algorithm_parser("R")
+
 a = Solver(test_cube)
 
 frame_value = 5
