@@ -32,6 +32,7 @@ class Cube:
         self.left = 4
         self.face = 2
         self.back = 3
+        self.orientation_ranges = {'r': 1, 'g': 2, 'o': 3}
 
 
         #
@@ -204,23 +205,28 @@ class Cube:
                 pass
 
     def save_state(self):
-            self.save = deepcopy(self.cube)
+        self.save = deepcopy(self.cube)
         
     def restore_state(self):
-            self.cube = deepcopy(self.save)
+        self.cube = deepcopy(self.save)
     
-    def change_orientation(self, front, left, right):
-        # Assuming bot/top are fixed
-        a = [self.face, self.back, self.right, self.left]
-        for i in a:
-            print("Initial: " + str(i))
-        assert front in [2,3,4,5] 
-        self.face = front
-        self.back = front+1 if (front == 2 or front == 4) else front-1
-        self.right = right
-        self.left = left
-        for i in a:
-            print("New: " + str(i))
+    def change_orientation(self, front):
+        self.orientation_key = front
+        assert front in self.orientation_ranges.keys()
+        for i in range(self.orientation_ranges[self.orientation_key]):
+            self.algorithm_parser("U D'")
+            self.turn_horizontal(1)
+        
+    def default_orientation(self):
+        for i in range(4 - self.orientation_ranges[self.orientation_key]):
+            self.algorithm_parser("U' D")
+            self.turn_horizontal(1)
+            self.turn_horizontal(1)
+            self.turn_horizontal(1)
+
+    
+
+
 
 
     
