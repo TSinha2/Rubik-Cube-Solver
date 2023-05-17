@@ -218,11 +218,17 @@ class Cube:
             self.turn_horizontal(1)
         
     def default_orientation(self):
-        for i in range(4 - self.orientation_ranges[self.orientation_key]):
+        # for i in range(4 - self.orientation_ranges[self.orientation_key]):
+        #     self.algorithm_parser("U' D")
+        #     self.turn_horizontal(1)
+        #     self.turn_horizontal(1)
+        #     self.turn_horizontal(1)
+        while self.get_cube()[2][1][1] != 'b':
             self.algorithm_parser("U' D")
             self.turn_horizontal(1)
             self.turn_horizontal(1)
             self.turn_horizontal(1)
+
 
     
 
