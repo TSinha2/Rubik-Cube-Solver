@@ -1,3 +1,4 @@
+from cgi import test
 from tkinter import Frame
 import pygame
 from cube import Cube
@@ -16,10 +17,10 @@ colors = {'y': (255, 255, 0),
             }
 
 test_cube = Cube()
-# test_cube.algorithm_parser("B' R U' D R U' D D  B' U U R' F R' L F' D' B' U F F L' B D' F' U' R R B'")
-test_cube.change_orientation(4,2,3)
-test_cube.algorithm_parser("R")
-test_cube.change_orientation(2,5,4)
+test_cube.algorithm_parser(" L U U F F R L Fi Ri U U Ri Fi U U L B B Di B B D F Di L B Ri Fi Ri Di R")
+#test_cube.change_orientation('r')
+#test_cube.default_orientation()
+
 # test_cube.algorithm_parser("R")
 
 a = Solver(test_cube)
@@ -103,6 +104,29 @@ while running:
         if move_ticker == 0:
             move_ticker = frame_value
             a.cross()
+    
+    if keys[pygame.K_z]:
+        if move_ticker == 0:
+            move_ticker = frame_value
+            test_cube.change_orientation('g')
+
+    if keys[pygame.K_x]:
+        if move_ticker == 0:
+            move_ticker = frame_value
+            test_cube.change_orientation('r')
+
+    if keys[pygame.K_c]:
+        if move_ticker == 0:
+            move_ticker = frame_value
+            test_cube.change_orientation('o')
+
+
+
+    if keys[pygame.K_q]:
+        if move_ticker == 0:
+            move_ticker = frame_value
+            test_cube.default_orientation()
+
 
 
     draw_cube(screen, 18, 18, test_cube.get_cube())
