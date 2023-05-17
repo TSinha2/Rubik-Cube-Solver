@@ -199,6 +199,43 @@ class Solver:
         print(move_str)
         
         return move_str
+    
+    def white_insert(self, face):
+        try:
+            self.unsolved_cube.change_orientation(face)
+        except:
+            self.unsolved_cube.default_orientation()
+        face_to_check = self.unsolved_cube.get_cube()[2]
+        for i in range(4):
+            #print(face_to_check[0])
+            if (face_to_check[0][0] == 'w'):
+                print("T1")
+                if (self.unsolved_cube.get_cube()[1][2][0] == face_to_check[1][1]):
+                    self.unsolved_cube.algorithm_parser("U' L' U L")
+                
+            if (face_to_check[0][2] == 'w'):
+                print("T2")
+                # print(face_to_check[1][1])
+                # print(self.unsolved_cube.get_cube()[1][2][2])
+                if (self.unsolved_cube.get_cube()[1][2][2] == face_to_check[1][1]):
+                    self.unsolved_cube.algorithm_parser("U R U' R'")
+
+            self.unsolved_cube.algorithm_parser('U')   
+
+    
+    def white(self):
+        self.white_insert('r')
+        self.unsolved_cube.default_orientation()
+        self.white_insert('g')
+        self.unsolved_cube.default_orientation()
+        self.white_insert('o')
+        self.unsolved_cube.default_orientation()
+        self.white_insert('b')
+
+
+
+            
+            
         
         
         
@@ -238,3 +275,8 @@ a = Solver(test_cube)
 test_cube.algorithm_parser(" L U U F F R L Fi Ri U U Ri Fi U U L B B Di B B D F Di L B Ri Fi Ri Di R")
 
 a.cross()
+test_cube.algorithm_parser(" R U R'")
+#print("INITIALLY")
+#print(test_cube.get_cube()[0])
+a.white()
+print(test_cube.get_cube()[0])
