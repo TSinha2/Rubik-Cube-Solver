@@ -128,6 +128,11 @@ while running:
             test_cube.default_orientation()
 
 
+    if keys[pygame.K_w]:
+        if move_ticker == 0:
+            move_ticker = frame_value
+            a.white()
+
 
     draw_cube(screen, 18, 18, test_cube.get_cube())
 

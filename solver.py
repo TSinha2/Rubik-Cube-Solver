@@ -1,5 +1,5 @@
 from cube import Cube
-
+import numpy as np
 
 edges = [(0, 1), (1, 0), (1, 2), (2, 1)]
 
@@ -200,7 +200,7 @@ class Solver:
         
         return move_str
     
-    def white_insert(self, face):
+    def white_insert(self, face) -> str:
         try:
             self.unsolved_cube.change_orientation(face)
         except:
@@ -220,18 +220,110 @@ class Solver:
                 if (self.unsolved_cube.get_cube()[1][2][2] == face_to_check[1][1]):
                     self.unsolved_cube.algorithm_parser("U R U' R'")
 
-            self.unsolved_cube.algorithm_parser('U')   
+            self.unsolved_cube.algorithm_parser('U')
+
+    def white_complex(self) -> None:
+        face_to_check = self.unsolved_cube.get_cube()[2]
+        for i in range(4):
+
+            if 'w' in self.unsolved_cube.get_cube()[1][2]:
+                if (self.unsolved_cube.get_cube()[0][0][0] != 'w' or face_to_check[2][0] == face_to_check[1][1]):
+                    self.unsolved_cube.algorithm_parser("L' U L")
+                if (self.unsolved_cube.get_cube()[0][0][2] != 'w' or face_to_check[2][2] == face_to_check[1][1]):
+                    self.unsolved_cube.algorithm_parser("R U' R'")
+
+            self.unsolved_cube.algorithm_parser('U')
+
+    def white_bottom(self):
+        face_to_check = self.unsolved_cube.get_cube()[2]
+        for i in range(4):
+
+            if 'w' in self.unsolved_cube.get_cube()[1][2]:
+                if (face_to_check[2][2] == 'w'):
+                    self.unsolved_cube.algorithm_parser("R U' R'")
+                if (face_to_check[2][0] == 'w'):
+                    self.unsolved_cube.algorithm_parser("L' U L")
+
+            self.unsolved_cube.algorithm_parser('U')
+    
+    def white_incorrectly_solved(self):
+        face_to_check = self.unsolved_cube.get_cube()[2]
+        for i in range(4):
+
+            if 'w' in self.unsolved_cube.get_cube()[1][2]:
+                if (face_to_check[1][1] != face_to_check[2][2]):
+                    self.unsolved_cube.algorithm_parser("R U' R'")
+                if (face_to_check[2][0] == face_to_check[1][1]):
+                    self.unsolved_cube.algorithm_parser("L' U' L")
+
+            self.unsolved_cube.algorithm_parser('U')
+    
+
+
+
+
+
+
+    
+    def white_(self):
+        faces = ['r', 'g', 'o']
+
+        for face in faces:
+            self.unsolved_cube.change_orientation(face)
+            self.white_complex()
+            self.white_insert(face)
+            self.white_bottom()
+            self.white_insert(face)
+            self.white_incorrectly_solved()
+            self.white_insert(face)
+
+        self.unsolved_cube.default_orientation()
+        self.white_complex()
+        self.white_insert('b')
+        self.white_bottom()
+        self.white_insert('b')
+        self.white_incorrectly_solved()
+        self.white_insert('b')
+
+  
+
+
 
     
     def white(self):
-        self.white_insert('r')
-        self.unsolved_cube.default_orientation()
-        self.white_insert('g')
-        self.unsolved_cube.default_orientation()
-        self.white_insert('o')
-        self.unsolved_cube.default_orientation()
-        self.white_insert('b')
+       for i in range(50):
+            self.white_()
+            correct_array = np.array(
+                [[['w' ,'w', 'w'],
+                ['w', 'w' ,'w'],
+                ['w', 'w' , 'w']],
 
+                [['w', 'w' ,'w'],
+                ['y', 'y', 'b'],
+                ['y', 'y' ,'b']],
+
+                [['b', 'b' ,'w'],
+                ['b', 'b' ,'w'],
+                ['b', 'b', 'r']],
+
+                [['g' ,'g' ,'g'],
+                ['g', 'g' ,'g'],
+                ['y' ,'y' ,'o']],
+
+                [['r', 'r' ,'o'],
+                ['r', 'r' ,'o'],
+                ['y', 'y' ,'b']],
+
+                [['r','o','o'],
+                ['r', 'o' ,'o'],
+                ['g' ,'o' ,'o']]]
+                )
+            
+            if (self.unsolved_cube.get_cube()[0] == correct_array[0]).all():
+                print("YAY")
+                break
+
+ 
 
 
             
