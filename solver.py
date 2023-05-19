@@ -355,6 +355,10 @@ Three cases:
 
 """
 
+"""
+Approach to white cross functions:
+When a complex function returns True, do white_insert for all faces
+"""
 
 
 #self.unsolved_cube.algorithm_parser("Di R")
