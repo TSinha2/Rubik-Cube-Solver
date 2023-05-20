@@ -370,7 +370,7 @@ class Solver:
         return ""  
 
     
-    def second_layer_check(self):
+    def not_only_yellow_pieces(self):
         yellow_face = self.unsolved_cube.get_cube()[1]
         front_face = self.unsolved_cube.get_cube()[2]
 
@@ -381,17 +381,43 @@ class Solver:
             
 
         return False
-
+    
+    def second_layer_not_complete(self):
+        for face  in ['r', 'g', 'o', 'b']:
+            current_face = self.unsolved_cube.get_cube()[2]
+            if not current_face[1][1] == current_face[1][0] == current_face[1][2]:
+                return True
+        
+        return False
+        
+            
     def second_layer(self):
+        if not self.white_solved:
+            self.white()
+        
+        self.second_layer_solved = True
+
         yellow_face = self.unsolved_cube.get_cube()[1]
         front_face = self.unsolved_cube.get_cube()[2]
 
-        while (self.second_layer_check()):
+        while (self.not_only_yellow_pieces()):
 
             for face in ['r', 'g', 'o', 'b']:
                 self.unsolved_cube.change_orientation(face)
                 self.second_layer_insert()
             
+        while (self.second_layer_not_complete()):
+            for face in ['r', 'g', 'o','b']:
+                self.unsolved_cube.change_orientation(face)
+                if front_face[1][1] != front_face[1][0]:
+                    self.unsolved_cube.algorithm_parser("U' L' U L U F U' F'")
+                if front_face[1][1] != front_face[1][2]:
+                    self.unsolved_cube.algorithm_parser("U R U' R' U' F' U F")
+
+                self.second_layer_insert()
+
+
+
                 
         
             
