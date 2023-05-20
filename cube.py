@@ -37,7 +37,7 @@ class Cube:
 
         #
 
-    def turn_horizontal(self, row):
+    def turn_horizontal(self, row: int) -> None:
         """
         Function for the horizontal turns (U, D' in Rubik's Cube notation)
 
@@ -66,7 +66,7 @@ class Cube:
         else:
             return
 
-    def turn_vertical(self, col):
+    def turn_vertical(self, col: int) -> None:
         """
         Function for the vertical turns (R, L' in Rubik's cube notation)
 
@@ -95,12 +95,14 @@ class Cube:
         else:
             return
     
-    def turn_sideways(self, side_col):
+    def turn_sideways(self, side_col: int) -> None:
         """
         Function for sideways turns (F, B' in Rubik's Cube Notation)
         
         Parameters: 
             side_col (int): which side_col number to turn (2 is F, 0 is B')
+
+        Return: None
         """
         temp = [i for i in self.cube[self.top][side_col]]
         self.cube[self.top][side_col] = self.cube[self.right][:,side_col][::-1]
@@ -118,7 +120,11 @@ class Cube:
 
 
         
-    def display_cube(self):
+    def display_cube(self) -> None:
+        """
+        Display the cube  as text in the shell
+        """
+
         for i in range(6):
             if (i == 4 or i == 3):
                 print(np.fliplr(self.cube[i]))
@@ -129,7 +135,15 @@ class Cube:
             # print(self.cube[i])
             # print("")
     
-    def algorithm_parser(self, algorithm):
+    def algorithm_parser(self, algorithm: str) -> None:
+        """
+        Allows for user to use normal cube notation to modify the cube
+
+        Parameters:
+            algorithm (str): The algorithm to be executed on the cube
+        
+        Return: None
+        """
         algorithm = algorithm.split()
         moves = "R Ri Li L F Fi B Bi U Ui D Di R' L' F' B' U' D' U2 D2 F2 B2 R2 L2".split()
         for move in algorithm:
@@ -204,13 +218,31 @@ class Cube:
             else:
                 pass
 
-    def save_state(self):
+    def save_state(self) -> None:
+        """
+        Saves the state (i.e. each face) of the cube
+        
+        Return: None
+        """
         self.save = deepcopy(self.cube)
         
-    def restore_state(self):
+    def restore_state(self) -> None:
+        """
+        Restores the previously saved state
+
+        Return: None
+        """
         self.cube = deepcopy(self.save)
     
     def change_orientation(self, front: str) -> None:
+        """
+        Modifies the side that is facing the users (and consequently other sides as well). Note that it only supports orientation in the horizontal direction.
+
+        Parameters: 
+            front (str): The color that should be at the front, facing the user
+        
+        Return: None
+        """
         assert front in ['r', 'g', 'o', 'b']
         while self.get_cube()[2][1][1] != front:
             self.algorithm_parser("U' D")
@@ -218,7 +250,10 @@ class Cube:
             self.turn_horizontal(1)
             self.turn_horizontal(1)
         
-    def default_orientation(self):
+    def default_orientation(self) -> None:
+        """
+        Restores  the initial orientation (i.e. Blue facing the user)
+        """
         self.change_orientation('b')
     
     def get_cube(self):
