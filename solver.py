@@ -7,6 +7,32 @@ edges = [(0, 1), (1, 0), (1, 2), (2, 1)]
 class Solver:
     def __init__(self, unsolved_cube) -> None:
         self.unsolved_cube = unsolved_cube
+        self.solved =             correct_array = np.array(
+                [[['w' ,'w', 'w'],
+                ['w', 'w' ,'w'],
+                ['w', 'w' , 'w']],
+
+                [['y', 'y' ,'y'],
+                ['y', 'y', 'y'],
+                ['y', 'y' ,'y']],
+
+                [['b', 'b' ,'b'],
+                ['b', 'b' ,'b'],
+                ['b', 'b', 'b']],
+
+                [['g' ,'g' ,'g'],
+                ['g', 'g' ,'g'],
+                ['g' ,'g' ,'g']],
+
+                [['r', 'r' ,'r'],
+                ['r', 'r' ,'r'],
+                ['r', 'r' ,'r']],
+
+                [['o','o','o'],
+                ['o', 'o' ,'o'],
+                ['o' ,'o' ,'o']]]
+                )
+        self.cross_solved   = False
         if not type(unsolved_cube) == Cube:
             raise ValueError("Please pass a cube object")
 
@@ -183,7 +209,6 @@ class Solver:
         while (self.white_edge_count() != 4):
             moves.append(self.all_white_onto_yellow())
 
-        print(moves)
         for i in range(len(moves)):
             if i != []:
                 move_str += ' '.join(j for j in moves[i])
@@ -196,54 +221,57 @@ class Solver:
             else:
                 move_str += i
                 move_str += ' '
-        print(move_str)
         
+        self.cross_solved = True
         return move_str
     
-    def white_insert(self, face) -> str:
-        try:
-            self.unsolved_cube.change_orientation(face)
-        except:
-            self.unsolved_cube.default_orientation()
+    def white_insert(self) -> str:
         face_to_check = self.unsolved_cube.get_cube()[2]
         for i in range(4):
             #print(face_to_check[0])
             if (face_to_check[0][0] == 'w'):
-                print("T1")
                 if (self.unsolved_cube.get_cube()[1][2][0] == face_to_check[1][1]):
                     self.unsolved_cube.algorithm_parser("U' L' U L")
+
                 
             if (face_to_check[0][2] == 'w'):
-                print("T2")
                 # print(face_to_check[1][1])
                 # print(self.unsolved_cube.get_cube()[1][2][2])
                 if (self.unsolved_cube.get_cube()[1][2][2] == face_to_check[1][1]):
                     self.unsolved_cube.algorithm_parser("U R U' R'")
 
+
             self.unsolved_cube.algorithm_parser('U')
 
-    def white_complex(self) -> None:
-        face_to_check = self.unsolved_cube.get_cube()[2]
+    def white_complex(self) -> bool:
+        """
+        If a white piece is at the U layer (but not correctly oriented), orient it so it can be solved using white_insert
+        """
+        face_to_check = self.unsolved_cube.get_cube()[2] #  Get the side facing the user
         for i in range(4):
-
-            if 'w' in self.unsolved_cube.get_cube()[1][2]:
-                if (self.unsolved_cube.get_cube()[0][0][0] != 'w' or face_to_check[2][0] == face_to_check[1][1]):
+            if 'w' in self.unsolved_cube.get_cube()[1][2]: 
+                if (self.unsolved_cube.get_cube()[0][0][0] != 'w' and self.unsolved_cube.get_cube()[1][2][0] == 'w'):
                     self.unsolved_cube.algorithm_parser("L' U L")
-                if (self.unsolved_cube.get_cube()[0][0][2] != 'w' or face_to_check[2][2] == face_to_check[1][1]):
+                    return True
+                if (self.unsolved_cube.get_cube()[0][0][2] != 'w' and self.unsolved_cube.get_cube()[1][2][2] == 'w'):
                     self.unsolved_cube.algorithm_parser("R U' R'")
+                    return True
+
 
             self.unsolved_cube.algorithm_parser('U')
 
     def white_bottom(self):
         face_to_check = self.unsolved_cube.get_cube()[2]
         for i in range(4):
-
-            if 'w' in self.unsolved_cube.get_cube()[1][2]:
+            if 'w' in face_to_check[2]:
                 if (face_to_check[2][2] == 'w'):
                     self.unsolved_cube.algorithm_parser("R U' R'")
+                    return True
+
                 if (face_to_check[2][0] == 'w'):
                     self.unsolved_cube.algorithm_parser("L' U L")
-
+                    return True
+                    
             self.unsolved_cube.algorithm_parser('U')
     
     def white_incorrectly_solved(self):
@@ -253,76 +281,32 @@ class Solver:
             if 'w' in self.unsolved_cube.get_cube()[1][2]:
                 if (face_to_check[1][1] != face_to_check[2][2]):
                     self.unsolved_cube.algorithm_parser("R U' R'")
+                    return True
+
                 if (face_to_check[2][0] == face_to_check[1][1]):
                     self.unsolved_cube.algorithm_parser("L' U' L")
+                    return True
+
 
             self.unsolved_cube.algorithm_parser('U')
     
-
-
-
-
-
-
-    
-    def white_(self):
-        faces = ['r', 'g', 'o']
-
-        for face in faces:
-            self.unsolved_cube.change_orientation(face)
-            self.white_complex()
-            self.white_insert(face)
-            self.white_bottom()
-            self.white_insert(face)
-            self.white_incorrectly_solved()
-            self.white_insert(face)
-
-        self.unsolved_cube.default_orientation()
-        self.white_complex()
-        self.white_insert('b')
-        self.white_bottom()
-        self.white_insert('b')
-        self.white_incorrectly_solved()
-        self.white_insert('b')
-
-  
-
-
-
-    
     def white(self):
-       for i in range(50):
-            self.white_()
-            correct_array = np.array(
-                [[['w' ,'w', 'w'],
-                ['w', 'w' ,'w'],
-                ['w', 'w' , 'w']],
-
-                [['w', 'w' ,'w'],
-                ['y', 'y', 'b'],
-                ['y', 'y' ,'b']],
-
-                [['b', 'b' ,'w'],
-                ['b', 'b' ,'w'],
-                ['b', 'b', 'r']],
-
-                [['g' ,'g' ,'g'],
-                ['g', 'g' ,'g'],
-                ['y' ,'y' ,'o']],
-
-                [['r', 'r' ,'o'],
-                ['r', 'r' ,'o'],
-                ['y', 'y' ,'b']],
-
-                [['r','o','o'],
-                ['r', 'o' ,'o'],
-                ['g' ,'o' ,'o']]]
-                )
-            
-            if (self.unsolved_cube.get_cube()[0] == correct_array[0]).all():
-                print("YAY")
-                break
-
+        if (self.cross_solved):
+            pass
+        else:
+            self.cross()
+        faces = ['r', 'g', 'o', 'b']
+        while not np.array_equal(self.unsolved_cube.get_cube()[0], self.solved[0]) :
+            for face in faces:
+                self.unsolved_cube.change_orientation(face)
+                self.white_insert()
+                if (self.white_bottom()):
+                    self.white_insert()
+                if (self.white_complex()):
+                    self.white_insert()
+                if (self.white_incorrectly_solved()):
+                    self.white_insert()
+    
  
 
 
@@ -366,13 +350,13 @@ When a complex function returns True, do white_insert for all faces
 #b = find_white_edges()
 # self.unsolved_cube.algorithm_parser("F R F")
 # print(b)
-test_cube = Cube()
-a = Solver(test_cube)
-test_cube.algorithm_parser(" L U U F F R L Fi Ri U U Ri Fi U U L B B Di B B D F Di L B Ri Fi Ri Di R")
+# test_cube = Cube()
+# a = Solver(test_cube)
+# test_cube.algorithm_parser(" L U U F F R L Fi Ri U U Ri Fi U U L B B Di B B D F Di L B Ri Fi Ri Di R")
 
-a.cross()
-test_cube.algorithm_parser(" R U R'")
-#print("INITIALLY")
-#print(test_cube.get_cube()[0])
-a.white()
-print(test_cube.get_cube()[0])
+# a.cross()
+# test_cube.algorithm_parser(" R U R'")
+# #print("INITIALLY")
+# #print(test_cube.get_cube()[0])
+# a.white()
+# print(test_cube.get_cube()[0])
