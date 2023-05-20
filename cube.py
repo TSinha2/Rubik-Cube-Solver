@@ -145,7 +145,7 @@ class Cube:
         Return: None
         """
         algorithm = algorithm.split()
-        moves = "R Ri Li L F Fi B Bi U Ui D Di R' L' F' B' U' D' U2 D2 F2 B2 R2 L2".split()
+        moves = "R Ri Li L F Fi B Bi U Ui D Di R' L' F' B' U' D' U2 D2 F2 B2 R2 L2 Y".split()
         for move in algorithm:
             assert (move in moves)
             if (move == 'R'):
@@ -214,6 +214,17 @@ class Cube:
             elif (move == 'B2'):
                 for i in range(2):
                     self.turn_sideways(0)
+            
+            elif (move == 'Y'):
+                self.turn_horizontal(0)
+                self.turn_horizontal(1)
+                self.turn_horizontal(2)
+            
+            elif (move == 'Yi' or move == 'Y'):
+                for i in range(3):
+                    self.turn_horizontal(0)
+                    self.turn_horizontal(1)
+                    self.turn_horizontal(2)
 
             else:
                 pass
@@ -245,10 +256,7 @@ class Cube:
         """
         assert front in ['r', 'g', 'o', 'b']
         while self.get_cube()[2][1][1] != front:
-            self.algorithm_parser("U' D")
-            self.turn_horizontal(1)
-            self.turn_horizontal(1)
-            self.turn_horizontal(1)
+            self.algorithm_parser("Y")
         
     def default_orientation(self) -> None:
         """
