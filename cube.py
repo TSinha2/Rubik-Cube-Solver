@@ -210,31 +210,16 @@ class Cube:
     def restore_state(self):
         self.cube = deepcopy(self.save)
     
-    def change_orientation(self, front):
-        self.orientation_key = front
-        assert front in self.orientation_ranges.keys()
-        for i in range(self.orientation_ranges[self.orientation_key]):
-            self.algorithm_parser("U D'")
-            self.turn_horizontal(1)
-        
-    def default_orientation(self):
-        # for i in range(4 - self.orientation_ranges[self.orientation_key]):
-        #     self.algorithm_parser("U' D")
-        #     self.turn_horizontal(1)
-        #     self.turn_horizontal(1)
-        #     self.turn_horizontal(1)
-        while self.get_cube()[2][1][1] != 'b':
+    def change_orientation(self, front: str) -> None:
+        assert front in ['r', 'g', 'o', 'b']
+        while self.get_cube()[2][1][1] != front:
             self.algorithm_parser("U' D")
             self.turn_horizontal(1)
             self.turn_horizontal(1)
             self.turn_horizontal(1)
-
-
-    
-
-
-
-
+        
+    def default_orientation(self):
+        self.change_orientation('b')
     
     def get_cube(self):
         return self.cube
