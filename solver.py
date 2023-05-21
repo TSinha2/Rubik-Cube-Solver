@@ -415,6 +415,53 @@ class Solver:
                     self.unsolved_cube.algorithm_parser("U R U' R' U' F' U F")
 
                 self.second_layer_insert()
+    
+    def check_yellow_edges(self, edges):            
+        for edge in edges:
+            if self.unsolved_cube.get_cube()[1][edge[0]][edge[1]] != 'y':
+                return False
+        
+        return True
+        
+    
+    def yellow_edge_state(self):
+        for i in range(4):
+            # Cross
+            if self.check_yellow_edges( [(0, 1), (2, 1), (1,0), (1,2)] ):
+                return 0
+
+            # Line            
+            if self.check_yellow_edges( [(1, 0), (1, 2)]    ):
+                return 1
+            
+            # L
+            if self.check_yellow_edges( [(0, 1), (1,0)] ):
+                return 2
+
+            self.unsolved_cube.algorithm_parser("U")
+
+            
+        return 3
+    
+    def orient_yellow_edges(self):
+        yellow_edge_state =  self.yellow_edge_state() 
+        match yellow_edge_state:
+            case 0:
+                pass
+            case 1:
+                self.unsolved_cube.algorithm_parser("F R U R' U' F'")
+            case 2:
+                self.unsolved_cube.algorith_parser(" F U R U' R' F'")
+            case 3:
+                self.unsolved_cube.algorith_parser(" F U R U' R' F'")
+                self.orient_yellow_edges()
+
+
+
+
+
+
+
 
 
 
