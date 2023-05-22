@@ -255,14 +255,19 @@ class Cube:
         Return: None
         """
         assert front in ['r', 'g', 'o', 'b']
+        counter = 0
+        moves = ''
         while self.get_cube()[2][1][1] != front:
+            counter += 1
             self.algorithm_parser("Y")
+        
+        return moves.join(' Y' for i in range(counter))
         
     def default_orientation(self) -> None:
         """
         Restores  the initial orientation (i.e. Blue facing the user)
         """
-        self.change_orientation('b')
+        return(self.change_orientation('b'))
     
     def get_cube(self):
         return self.cube
