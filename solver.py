@@ -69,165 +69,117 @@ class Solver:
         
         return count
     
-    def one_move_white_onto_yellow(self, move):
-        initial_white_edge_count = self.white_edge_count()
-        self.unsolved_cube.save_state()
-        u_turns = 0
-        moves = []
+    def white_to_yellow_helper(self, move):
+        moves = ""
+        counter = 0
+        initial_edge_count = self.white_edge_count()
         while True:
-            for i in range(u_turns):
-                self.unsolved_cube.algorithm_parser("U")
             self.unsolved_cube.algorithm_parser(move)
-            if (self.white_edge_count() > initial_white_edge_count):
-                for i in range(u_turns):
-                    moves.append("U")
-                moves.append(move)
-                self.unsolved_cube.save_state()
+            if (self.white_edge_count() > initial_edge_count):
                 break
             else:
-                u_turns += 1
-                self.unsolved_cube.restore_state()
+                if len(move) == 2 and move[1] != '2':
+                    self.unsolved_cube.algorithm_parser(move[0])
+                else:
+                    self.unsolved_cube.algorithm_parser(move[0] + "i")
+                self.unsolved_cube.algorithm_parser("U")
+                moves += " U"
         
-        return ' '.join(i for i in moves)
+        moves+= " " + move
+        return moves
 
-    def two_move_white_onto_yellow(self, move_one, move_two):
-        initial_white_edge_count = self.white_edge_count()
-        self.unsolved_cube.algorithm_parser(move_one)
-        flag = False
-        if (self.white_edge_count() < initial_white_edge_count):
-            flag = True
+
+    
+    def white_to_yellow(self):
+        moves = ""
+        white_face = self.unsolved_cube.get_cube()[0]
+        for edge in edges:
+            if white_face[edge[0]][edge[1]] == 'w':
+                match edge:
+                    case (0,1):
+                        moves += self.white_to_yellow_helper("F2")
+                    case (1,0):
+                        moves += self.white_to_yellow_helper("L2")
+                    case (1,2):
+                        moves += self.white_to_yellow_helper("R2")
+                    case (2,1):
+                        moves += self.white_to_yellow_helper("B2")
         
-        if flag == False:
-            moves = []
-            moves.append(move_one)
-            moves.append(self.one_move_white_onto_yellow(move_two))
-            return ' '.join(i for i in moves)
-        else:
-            moves = []
-            moves.append(move_one)
-            moves.append(self.one_move_white_onto_yellow(move_two))
-            moves.append(self.one_move_white_onto_yellow(' '.join(move_one for i in range(3))))
-            return ' '.join(i for i in moves)
-            
-    def all_white_onto_yellow(self):
-        white_edges = self.find_white_edges()
-        faces = self.unsolved_cube.get_cube()
-        moves = []
-        for face_index, row, row_index in white_edges:
-            face = faces[face_index]
+        for face in 'b r o g'.split():
+            moves += self.unsolved_cube.change_orientation(face)
+            front_face = self.unsolved_cube.get_cube()[2]
+            for edge in edges:
+                if front_face[edge[0]][edge[1]] == 'w':
+                    match edge:
+                        case (1,0):
+                            moves += self.white_to_yellow_helper("Li")
+                        case (1, 2):
+                            moves += self.white_to_yellow_helper("R")
+                        case (0, 1):
+                            flag = False
+                            initial_edge_count = self.white_edge_count()
+                            self.unsolved_cube.algorithm_parser("F")
+                            moves += " F"
+                            if (initial_edge_count > self.white_edge_count()):
+                                flag = True
+                            moves += self.white_to_yellow_helper("R")
+                            if (flag):
+                                moves+=self.white_to_yellow_helper("Fi")
+                        case (2, 1):
+                            flag = False
+                            initial_edge_count = self.white_edge_count()
+                            self.unsolved_cube.algorithm_parser("Fi")
+                            moves += " Fi"
+                            if (initial_edge_count > self.white_edge_count()):
+                                flag = True
+                            moves += self.white_to_yellow_helper("R")
+                            if (flag):
+                                moves+=self.white_to_yellow_helper("F")
 
-            #print(face[row][row_index])
-
-            if face_index == 1:
-                pass
-
-            elif face_index == 0:
-                if row == 1:
-                    if row_index == 2:
-                        moves.append(self.one_move_white_onto_yellow("R R"))
-                    if row_index == 0:
-                        moves.append(self.one_move_white_onto_yellow("L L"))
-                if row == 0:
-                    moves.append(self.one_move_white_onto_yellow("F F"))
-                if row == 2:
-                    moves.append(self.one_move_white_onto_yellow("B B"))
-
-            elif face_index == 2:
-                if row == 1 and row_index == 2 and face[row][row_index] == 'w':
-                    moves.append(self.one_move_white_onto_yellow("R"))
-                if row == 1 and row_index == 0 and face[row][row_index] == 'w':
-                    moves.append(self.one_move_white_onto_yellow("Li"))
-                if row == 0 and face[row][row_index] == 'w':
-                    moves.append(self.two_move_white_onto_yellow("F", "R"))
-                if row == 2 and face[row][row_index] == 'w':
-                    moves.append(self.two_move_white_onto_yellow("F", "Li"))
-
-            elif face_index == 3:
-                if row == 1 and row_index == 2 and face[row][row_index] == 'w':
-                    moves.append(self.one_move_white_onto_yellow("Ri"))
-                if row == 1 and row_index == 0 and face[row][row_index] == 'w':
-                    moves.append(self.one_move_white_onto_yellow("L"))
-                if row == 0 and face[row][row_index] == 'w':
-                    moves.append(self.two_move_white_onto_yellow("Bi", "Ri"))
-                if row == 2 and face[row][row_index] == 'w':
-                    moves.append(self.two_move_white_onto_yellow("Bi", "L"))
-            
-            elif face_index == 4:
-                if row == 1 and row_index == 0 and face[row][row_index] == 'w':
-                    moves.append(self.one_move_white_onto_yellow("B"))
-                if row == 1 and row_index == 2 and face[row][row_index] == 'w':
-                    moves.append(self.one_move_white_onto_yellow("Fi"))
-                if row == 0 and face[row][row_index] == 'w':
-                    moves.append(self.two_move_white_onto_yellow("Ri", "Fi"))
-                if row == 2 and face[row][row_index] == 'w':
-                    moves.append(self.two_move_white_onto_yellow("Ri", "B"))
-                
-            elif face_index == 5:
-                if row == 1 and row_index == 0 and face[row][row_index] == 'w':
-                    moves.append(self.one_move_white_onto_yellow("Bi"))
-                if row == 1 and row_index == 2 and face[row][row_index] == 'w':
-                    moves.append(self.one_move_white_onto_yellow("F"))
-                if row == 0 and face[row][row_index] == 'w':
-                    moves.append(self.two_move_white_onto_yellow("Li", "Bi"))
-                if row == 2 and face[row][row_index] == 'w':
-                    moves.append(self.two_move_white_onto_yellow("Li", "F"))
-
+        moves += self.unsolved_cube.default_orientation()
+        
         return moves
 
     def one_yellow_to_white(self, face_index, color, position):
-        moves = []
+        moves = ""
         while True:
             self.unsolved_cube.algorithm_parser("U")
-            moves.append("U")
+            moves += " U"
             if ((self.unsolved_cube.get_cube()[face_index][0][1] == color) and self.unsolved_cube.get_cube()[1][position[0]][[position[1]]] == 'w'):
                 break
 
         return moves
         
     def yellow_to_white(self):
-        moves = []
+        moves = " "
         faces = self.unsolved_cube.get_cube()
         for face_index in range(2, 6):
             if face_index == 2:
-                moves.append(self.one_yellow_to_white(face_index,'b', (2,1)))
+                moves += self.one_yellow_to_white(face_index,'b', (2,1))
                 self.unsolved_cube.algorithm_parser("F F")
-                moves.append("F F")
+                moves += " F2"
             if face_index == 3:
-                moves.append(self.one_yellow_to_white(face_index,'g', (0, 1)))
+                moves += self.one_yellow_to_white(face_index,'g', (0, 1))
                 self.unsolved_cube.algorithm_parser("B B")
-                moves.append("B B")
+                moves += " B2"
             if face_index == 4:
-                moves.append(self.one_yellow_to_white(face_index,'r', (1,2)))
+                moves += self.one_yellow_to_white(face_index,'r', (1,2))
                 self.unsolved_cube.algorithm_parser("R R")
-                moves.append("R R")
+                moves += " R2"
             if face_index == 5:
-                moves.append(self.one_yellow_to_white(face_index,'o', (1,0)))
+                moves += self.one_yellow_to_white(face_index,'o', (1,0))
                 self.unsolved_cube.algorithm_parser("L L")
-                moves.append("L L")
+                moves += " L2"
             
         return moves
-
+    
     def cross(self):
-        moves = []
-        move_str = ' '
+        moves = " "
         while (self.white_edge_count() != 4):
-            moves.append(self.all_white_onto_yellow())
-
-        for i in range(len(moves)):
-            if i != []:
-                move_str += ' '.join(j for j in moves[i])
-                move_str += ' '
-        a = self.yellow_to_white()
-        for i in a:
-            if type(i) == list:
-                move_str += ' '.join('U' for i in range(len(i)))
-                move_str += ' '
-            else:
-                move_str += i
-                move_str += ' '
+            moves += self.white_to_yellow()
         
-        self.cross_solved = True
-        return move_str
+        moves += self.yellow_to_white()
+        print(moves)
     
     def white_insert(self) -> str:
         moves = ''
@@ -451,9 +403,9 @@ class Solver:
             case 1:
                 self.unsolved_cube.algorithm_parser("F R U R' U' F'")
             case 2:
-                self.unsolved_cube.algorith_parser(" F U R U' R' F'")
+                self.unsolved_cube.algorithm_parser(" F U R U' R' F'")
             case 3:
-                self.unsolved_cube.algorith_parser(" F U R U' R' F'")
+                self.unsolved_cube.algorithm_parser(" F U R U' R' F'")
                 self.orient_yellow_edges()
 
 
