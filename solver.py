@@ -179,7 +179,8 @@ class Solver:
             moves += self.white_to_yellow()
         
         moves += self.yellow_to_white()
-        print(moves)
+        self.cross_solved = True
+        return moves
     
     def white_insert(self) -> str:
         moves = ''
@@ -222,6 +223,7 @@ class Solver:
                 if (self.unsolved_cube.get_cube()[0][0][2] != 'w' and self.unsolved_cube.get_cube()[1][2][2] == 'w'):
                     self.unsolved_cube.algorithm_parser("R U' R'")
                     moves += " R U' R'"
+                    return moves
 
 
             self.unsolved_cube.algorithm_parser('U')
@@ -322,28 +324,29 @@ class Solver:
         return ""  
 
     
-    def not_only_yellow_pieces(self):
+    def only_yellow_pieces(self):
         yellow_face = self.unsolved_cube.get_cube()[1]
         front_face = self.unsolved_cube.get_cube()[2]
 
         for i in range(4):
             self.unsolved_cube.algorithm_parser("U")
             if (yellow_face[2][1] != 'y' and front_face[0][1] != 'y'):
-                return True
-            
+                return False
+        return True
 
-        return False
-    
     def second_layer_not_complete(self):
+        counter = 0
         for face  in ['r', 'g', 'o', 'b']:
+            self.unsolved_cube.change_orientation(face)
             current_face = self.unsolved_cube.get_cube()[2]
-            if not current_face[1][1] == current_face[1][0] == current_face[1][2]:
-                return True
-        
-        return False
-        
+            if not (current_face[1][1] == current_face[1][2] == current_face[1][0]):
+                self.unsolved_cube.default_orientation()
+                return False
             
+        return True
+                    
     def second_layer(self):
+        moves = ""
         if not self.white_solved:
             self.white()
         
@@ -352,21 +355,27 @@ class Solver:
         yellow_face = self.unsolved_cube.get_cube()[1]
         front_face = self.unsolved_cube.get_cube()[2]
 
-        while (self.not_only_yellow_pieces()):
-
+        while (not self.only_yellow_pieces()):
             for face in ['r', 'g', 'o', 'b']:
-                self.unsolved_cube.change_orientation(face)
-                self.second_layer_insert()
+                moves += self.unsolved_cube.change_orientation(face)
+                moves += self.second_layer_insert()
             
-        while (self.second_layer_not_complete()):
-            for face in ['r', 'g', 'o','b']:
-                self.unsolved_cube.change_orientation(face)
-                if front_face[1][1] != front_face[1][0]:
-                    self.unsolved_cube.algorithm_parser("U' L' U L U F U' F'")
-                if front_face[1][1] != front_face[1][2]:
-                    self.unsolved_cube.algorithm_parser("U R U' R' U' F' U F")
+        # while (not self.second_layer_not_complete()):
+        #     for face in ['r', 'g', 'o','b']:
+        #         moves += self.unsolved_cube.change_orientation(face)
+        #         if front_face[1][1] != front_face[1][0]:
+        #             self.unsolved_cube.algorithm_parser("U' L' U L U F U' F'")
+        #             moves += " U' L' U L U F U' F'"
+        #         if front_face[1][1] != front_face[1][2]:
+        #             self.unsolved_cube.algorithm_parser("U R U' R' U' F' U F")
+        #             moves += " U R U' R' U' F' U F"
 
-                self.second_layer_insert()
+        #         moves += self.second_layer_insert()
+        #         self.unsolved_cube.default_orientation()
+        #         print('Loop')
+        
+        print("Second Layer: ", moves)
+        return moves
     
     def check_yellow_edges(self, edges):            
         for edge in edges:
