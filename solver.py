@@ -327,11 +327,14 @@ class Solver:
     def only_yellow_pieces(self):
         yellow_face = self.unsolved_cube.get_cube()[1]
         front_face = self.unsolved_cube.get_cube()[2]
+        self.unsolved_cube.save_state()
 
         for i in range(4):
             self.unsolved_cube.algorithm_parser("U")
             if (yellow_face[2][1] != 'y' and front_face[0][1] != 'y'):
+                self.unsolved_cube.restore_state()
                 return False
+        self.unsolved_cube.restore_state()
         return True
 
     def second_layer_not_complete(self):
@@ -339,12 +342,33 @@ class Solver:
         for face  in ['r', 'g', 'o', 'b']:
             self.unsolved_cube.change_orientation(face)
             current_face = self.unsolved_cube.get_cube()[2]
-            if not (current_face[1][1] == current_face[1][2] == current_face[1][0]):
-                self.unsolved_cube.default_orientation()
-                return False
-            
-        return True
-                    
+            if (current_face[1][1] == current_face[1][2] == current_face[1][0]):
+                counter += 1
+                #self.unsolved_cube.default_orientation()
+
+        print(counter)
+        if counter == 4:            
+            return True
+        else:
+            return False
+
+
+
+    def solve_incomp_second_layer(self):
+        front_face = self.unsolved_cube.get_cube()[2]
+        moves = ""
+        for face in ['r', 'g', 'o','b']:
+            moves += self.unsolved_cube.change_orientation(face)
+            if front_face[1][1] != front_face[1][0]:
+                self.unsolved_cube.algorithm_parser("U' L' U L U F U' F'")
+                moves += " U' L' U L U F U' F'"
+            if front_face[1][1] != front_face[1][2]:
+                self.unsolved_cube.algorithm_parser("U R U' R' U' F' U F")
+                moves += " U R U' R' U' F' U F"
+
+            moves += self.second_layer_insert()
+        return moves
+        
     def second_layer(self):
         moves = ""
         if not self.white_solved:
@@ -359,8 +383,10 @@ class Solver:
             for face in ['r', 'g', 'o', 'b']:
                 moves += self.unsolved_cube.change_orientation(face)
                 moves += self.second_layer_insert()
-            
-        # while (not self.second_layer_not_complete()):
+        
+        # self.solve_incomp_second_layer()
+        while (not self.second_layer_not_complete()):
+            moves += self.solve_incomp_second_layer()            
         #     for face in ['r', 'g', 'o','b']:
         #         moves += self.unsolved_cube.change_orientation(face)
         #         if front_face[1][1] != front_face[1][0]:
@@ -371,7 +397,6 @@ class Solver:
         #             moves += " U R U' R' U' F' U F"
 
         #         moves += self.second_layer_insert()
-        #         self.unsolved_cube.default_orientation()
         #         print('Loop')
         
         print("Second Layer: ", moves)

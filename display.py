@@ -1,5 +1,4 @@
 from cgi import test
-from tkinter import Frame
 import pygame
 from cube import Cube
 import numpy as np
@@ -17,11 +16,10 @@ colors = {'y': (255, 255, 0),
             }
 
 test_cube = Cube()
-test_cube.algorithm_parser(" L U U F F R L Fi Ri U U Ri Fi U U L B B Di B B D F Di L B Ri Fi Ri Di R")
-#test_cube.change_orientation('r')
-#test_cube.default_orientation()
-
-# test_cube.algorithm_parser("R")
+test_cube.algorithm_parser("D' B F U F2 D' B R U L' U L F L F' U' D' R' B' R' B D2 L' R U")
+test_cube.algorithm_parser("Li Fi R Y Y Y Y Y Y F U R Li Y Y  U F2 U B2 U U U U R2 U L2")
+test_cube.algorithm_parser("Y Y U U U U' L' U L R U' R' U R U' R' Y R U' R' Y U U' L' U L Y Y Y U U U U' L' U L Y U U U R U' R'")
+test_cube.algorithm_parser("Y U R U' R' U' F' U F Y Y Y U U' L' U L U F U' F' Y U' L' U L U F U' F' Y U R U' R' U' F' U F Y U' L' U L U F U' F' U U U U' L' U L U F U' F' Y Y U' L' U L U F U' F' U U U U' L' U L U F U' F' Y Y Y")
 
 a = Solver(test_cube)
 
@@ -120,6 +118,10 @@ while running:
             move_ticker = frame_value
             test_cube.change_orientation('o')
 
+    if keys[pygame.K_a]:
+        if move_ticker == 0:
+            move_ticker = frame_value
+            print(a.second_layer_not_complete())
 
 
     if keys[pygame.K_q]:
@@ -132,6 +134,19 @@ while running:
         if move_ticker == 0:
             move_ticker = frame_value
             a.white()
+
+    if keys[pygame.K_s]:
+        if move_ticker == 0:
+            move_ticker = frame_value
+            a.second_layer()
+
+
+    if keys[pygame.K_p]:
+        if move_ticker == 0:
+            move_ticker = frame_value
+            a.orient_yellow_edges()
+
+
 
 
     draw_cube(screen, 18, 18, test_cube.get_cube())
