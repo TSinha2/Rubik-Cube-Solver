@@ -411,36 +411,46 @@ class Solver:
         
     
     def yellow_edge_state(self):
+        counter = 0
         for i in range(4):
             # Cross
             if self.check_yellow_edges( [(0, 1), (2, 1), (1,0), (1,2)] ):
-                return 0
+                return [0, counter]
 
             # Line            
             if self.check_yellow_edges( [(1, 0), (1, 2)]    ):
-                return 1
+                return [1, counter]
             
             # L
             if self.check_yellow_edges( [(0, 1), (1,0)] ):
-                return 2
-
+                return [2, counter]
+            
+            counter+=1
             self.unsolved_cube.algorithm_parser("U")
 
             
-        return 3
+        return [3, counter]
     
     def orient_yellow_edges(self):
-        yellow_edge_state =  self.yellow_edge_state() 
-        match yellow_edge_state:
+        moves = ""
+        yellow_edge_state =  self.yellow_edge_state()
+        moves += " ".join(" U" for i in range(yellow_edge_state[1]))
+        match yellow_edge_state[0]:
             case 0:
                 pass
             case 1:
                 self.unsolved_cube.algorithm_parser("F R U R' U' F'")
+                moves += " F R U R' U' F'"
+                return moves
             case 2:
                 self.unsolved_cube.algorithm_parser(" F U R U' R' F'")
+                moves += " F U R U' R' F'"
+                return moves
             case 3:
                 self.unsolved_cube.algorithm_parser(" F U R U' R' F'")
-                self.orient_yellow_edges()
+                moves += " F U R U' R' F'"
+                moves += self.orient_yellow_edges()
+        print("Yellow Cross: ", moves)
 
 
 
