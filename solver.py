@@ -442,32 +442,34 @@ class Solver:
             case 1:
                 self.unsolved_cube.algorithm_parser("F R U R' U' F'")
                 moves += " F R U R' U' F'"
+                print("Yellow Cross: ", moves)
                 return moves
             case 2:
                 self.unsolved_cube.algorithm_parser(" F U R U' R' F'")
                 moves += " F U R U' R' F'"
+                print("Yellow Cross: ", moves)
                 return moves
             case 3:
                 self.unsolved_cube.algorithm_parser(" F U R U' R' F'")
                 moves += " F U R U' R' F'"
                 moves += self.orient_yellow_edges()
-        print("Yellow Cross: ", moves)
 
 
     def no_of_yellow_edges_permuted(self):
         counter=0
+        moves = ''
         for face in ['r', 'g', 'o', 'b']:
             front_face = self.unsolved_cube.get_cube()[2]
             temp_counter = 0
             while (front_face[0][1] != front_face[1][1]):
                 self.unsolved_cube.algorithm_parser('U')
+                moves += ' U'
             for i in self.unsolved_cube.get_cube()[2:]:
                 if i[0][1] == i[1][1]:
                     temp_counter+=1
                     if temp_counter > counter:
                         counter = temp_counter
-        print(counter)
-        return counter
+        return [counter, moves]
 
 
                             
@@ -478,8 +480,10 @@ class Solver:
         sune = " R U R' U R U2 R'"
         flag = False
         yellow_edges_permuted = self.no_of_yellow_edges_permuted()
-        match yellow_edges_permuted:
+        moves += yellow_edges_permuted[1]
+        match yellow_edges_permuted[0]:
             case 4:
+                print("Done permuting yellow edges")
                 return
             case 1:
                 self.unsolved_cube.algorithm_parser(sune)
@@ -487,10 +491,11 @@ class Solver:
                 self.permute_yellow_edges()
             case 2:
                 for face in ['r', 'g', 'o', 'b']:
-                    self.unsolved_cube.change_orientation(face)
+                    temp_moves = self.unsolved_cube.change_orientation(face)
                     right_face = self.unsolved_cube.get_cube()[4]
                     back_face = self.unsolved_cube.get_cube()[3]
                     if back_face[1][1] == back_face[0][1] and right_face[1][1] == right_face[0][1]:
+                        moves += " " + temp_moves
                         flag = True
                         break
                     
@@ -501,6 +506,8 @@ class Solver:
                     moves += sune
                     self.unsolved_cube.algorithm_parser(sune)
                     self.permute_yellow_edges()
+        print("Permute yellow edges:", moves)
+    
 
 
 

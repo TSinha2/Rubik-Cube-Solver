@@ -16,11 +16,12 @@ colors = {'y': (255, 255, 0),
             }
 
 test_cube = Cube()
-test_cube.algorithm_parser("D' B F U F2 D' B R U L' U L F L F' U' D' R' B' R' B D2 L' R U")
-test_cube.algorithm_parser("Li Fi R Y Y Y Y Y Y F U R Li Y Y  U F2 U B2 U U U U R2 U L2")
-test_cube.algorithm_parser("Y Y U U U U' L' U L R U' R' U R U' R' Y R U' R' Y U U' L' U L Y Y Y U U U U' L' U L Y U U U R U' R'")
-test_cube.algorithm_parser("Y U R U' R' U' F' U F Y Y Y U U' L' U L U F U' F' Y U' L' U L U F U' F' Y U R U' R' U' F' U F Y U' L' U L U F U' F' U U U U' L' U L U F U' F' Y Y U' L' U L U F U' F' U U U U' L' U L U F U' F' Y Y Y")
-
+test_cube.algorithm_parser("B F2 D2 L' B' R L' D' F2 U2 B' R2 B L2 D' L D' U2 F B2 U2 F' B' R F")
+# test_cube.algorithm_parser("U L2 Y Y Y Y Y Y Li Fi U R U U U F Y Y  U U U U F2 U U U B2 U U U R2 U L2")
+# test_cube.algorithm_parser("Y U U U' L' U L U R U' R' Y U U U' L' U L Y Y U' L' U L")
+# test_cube.algorithm_parser("  Y Y U R U' R' U' F' U F Y U U U R U' R' U' F' U F Y")
+# test_cube.algorithm_parser("U F R U R' U' F'")
+# test_cube.algorithm_parser("U U Y R U R' U R U2 R'")
 a = Solver(test_cube)
 
 frame_value = 5
@@ -133,7 +134,8 @@ while running:
     if keys[pygame.K_w]:
         if move_ticker == 0:
             move_ticker = frame_value
-            a.white()
+            a.white_to_yellow()
+            #a.white()
 
     if keys[pygame.K_s]:
         if move_ticker == 0:
@@ -145,6 +147,18 @@ while running:
         if move_ticker == 0:
             move_ticker = frame_value
             a.orient_yellow_edges()
+
+    if keys[pygame.K_e]:
+        if move_ticker == 0:
+            move_ticker = frame_value
+            a.permute_yellow_edges()   
+
+
+    if keys[pygame.K_o]:
+        if move_ticker == 0:
+            move_ticker = frame_value
+            sune = " R U R' U R U2 R'"
+            test_cube.algorithm_parser(sune)
 
 
 
