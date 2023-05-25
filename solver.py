@@ -1,4 +1,5 @@
 from cgi import test
+from turtle import right
 from cube import Cube
 import numpy as np
 
@@ -483,12 +484,11 @@ class Solver:
         moves += yellow_edges_permuted[1]
         match yellow_edges_permuted[0]:
             case 4:
-                print("Done permuting yellow edges")
-                return
+                return moves
             case 1:
                 self.unsolved_cube.algorithm_parser(sune)
                 moves += sune
-                self.permute_yellow_edges()
+                moves += self.permute_yellow_edges()
             case 2:
                 for face in ['r', 'g', 'o', 'b']:
                     temp_moves = self.unsolved_cube.change_orientation(face)
@@ -502,12 +502,65 @@ class Solver:
                 if (flag):
                     moves += sune
                     self.unsolved_cube.algorithm_parser(sune)
+                    return moves
                 else:
                     moves += sune
                     self.unsolved_cube.algorithm_parser(sune)
-                    self.permute_yellow_edges()
-        print("Permute yellow edges:", moves)
+                    moves += self.permute_yellow_edges()
+
+        
     
+
+    def orient_yellow_corners(self):
+        moves = ""
+        moves += self.no_of_yellow_edges_permuted()[1]
+        # print("Test ", moves)
+        # counter = 0
+        # alg = " U R U' L' U R' U' L"
+        # for face in ['r', 'g', 'o', 'b']:
+        #     self.unsolved_cube.change_orientation(face)
+        #     temp_counter = 0
+        #     yellow_face = self.unsolved_cube.get_cube()[1]
+        #     front_face = self.unsolved_cube.get_cube()[2]                    
+        #     right_face = self.unsolved_cube.get_cube()[4]
+        #     colors = [yellow_face[1][1], front_face[1][1], right_face[1][1]]
+        #     corner = [yellow_face[2][2], front_face[0][2], right_face[0][2]]
+        #     if yellow_face[2][2] in colors and front_face[0][2] in colors and right_face[0][2] in colors:
+        #         temp_counter += 1
+
+        #     if counter < temp_counter:
+        #         counter = temp_counter
+        
+        # match counter:
+        #     case 4:
+        #         print("Orient yellow corners: ", moves)
+        #         return moves
+        #     case 1:
+        #         for face in ['r', 'g', 'o', 'b']:
+        #             moves += self.unsolved_cube.change_orientation(face)
+        #             yellow_face = self.unsolved_cube.get_cube()[1]
+        #             front_face = self.unsolved_cube.get_cube()[2]                    
+        #             right_face = self.unsolved_cube.get_cube()[4]
+        #             colors = [yellow_face[1][1], front_face[1][1], right_face[1][1]]
+        #             if yellow_face[2][2] in colors and front_face[0][2] in colors and right_face[0][2] in colors:
+        #                 break
+                
+        #         self.unsolved_cube.algorithm_parser(alg)
+        #         moves += alg
+        #         print("Orient yellow corners: ", moves)
+        #         return moves
+        #     case 0:
+        #         self.unsolved_cube.algorithm_parser(alg)
+        #         moves += alg
+        #         moves += self.orient_yellow_corners()
+        #         print("Orient yellow corners: ", moves)
+        #         return moves
+
+        # print("Orient yellow corners: ", moves)
+
+
+
+
 
 
 
