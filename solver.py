@@ -90,23 +90,28 @@ class Solver:
         #     self.unsolved_cube.algorithm_parser("U")
         #     moves += " U"
 
+        self.unsolved_cube.save_state()       
         for i in range(4):
             self.unsolved_cube.algorithm_parser(move)       
             if (self.white_edge_count() > initial_edge_count):
                 moves+= " " + move
-                print(moves)
                 return moves
             else:
-                print("Here", i)
-                if len(move) == 2 and move[1] != '2':
-                    print(move[0])
-                    self.unsolved_cube.algorithm_parser(move[0])
-                if len(move) == 2 and move[1] == '2':
-                    self.unsolved_cube.algorithm_parser(move)
-                else:
-                    self.unsolved_cube.algorithm_parser(move[0] + "i")
+                self.unsolved_cube.restore_state()       
+                # if len(move) == 2 and move[1] != '2':
+                #     self.unsolved_cube.algorithm_parser(move[0])
+                print("Iteration: ", i)
+                # print("YELLOW face:\n ", self.unsolved_cube.get_cube()[1])
+                # print("BLUE face:\n ", self.unsolved_cube.get_cube()[2])
+                # if len(move) == 2 and move[1] == '2':
+                #     self.unsolved_cube.algorithm_parser(move)
+                # else:
+                #     self.unsolved_cube.algorithm_parser(move[0] + "i")
                 self.unsolved_cube.algorithm_parser("U")
-                moves += " U"                 
+                moves += " U"
+                self.unsolved_cube.save_state()       
+
+
     
 
     
@@ -140,7 +145,7 @@ class Solver:
                             initial_edge_count = self.white_edge_count()
                             self.unsolved_cube.algorithm_parser("F")
                             moves += " F"
-                            if (initial_edge_count >= self.white_edge_count()):
+                            if (initial_edge_count > self.white_edge_count()):
                                 flag = True
                             moves += self.white_to_yellow_helper("R")
                             if (flag):
@@ -150,10 +155,12 @@ class Solver:
                             initial_edge_count = self.white_edge_count()
                             self.unsolved_cube.algorithm_parser("Fi")
                             moves += " Fi"
-                            if (initial_edge_count >= self.white_edge_count()):
+                            if (initial_edge_count > self.white_edge_count()):
                                 flag = True
                             moves += self.white_to_yellow_helper("R")
                             if (flag):
+                                print("FACE: ", face)
+                                print(self.unsolved_cube.get_cube())
                                 moves+=self.white_to_yellow_helper("F")
 
         moves += self.unsolved_cube.default_orientation()
@@ -199,8 +206,8 @@ class Solver:
         while (self.white_edge_count() != 4):
             moves += self.white_to_yellow()
         
-        print("TEST: ", moves)
-        #moves += self.yellow_to_white()
+        # print("TEST: ", moves)
+        moves += self.yellow_to_white()
         self.cross_solved = True
         return moves
     
