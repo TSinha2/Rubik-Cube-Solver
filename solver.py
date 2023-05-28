@@ -165,7 +165,7 @@ class Solver:
 
         moves += self.unsolved_cube.default_orientation()
         
-        print("B: ", moves)
+        #print("B: ", moves)
         return moves
 
     def one_yellow_to_white(self, face_index, color, position):
@@ -498,12 +498,17 @@ class Solver:
                     if temp_counter > counter:
                         counter = temp_counter
         return [counter, moves]
+        #return counter
 
 
     def permute_yellow_edges_helper(self):
+        """
+        Look here for the error
+        """
         moves = ""
         flag = False
         noted = []
+        self.unsolved_cube.save_state()
         for face in ['r', 'g', 'o', 'b']:
             temp_moves = self.unsolved_cube.change_orientation(face)
             right_face = self.unsolved_cube.get_cube()[4]
@@ -516,19 +521,21 @@ class Solver:
                     flag = True
                     break
                 self.unsolved_cube.algorithm_parser("U")                        
-                moves += " " + "U"
-            
-            if len(noted) != 0:
-                self.unsolved_cube.change_orientation(noted[1])
-                front_face = self.unsolved_cube.get_cube()[2]
-                while (front_face[0][1] != front_face[1][1]):
-                    self.unsolved_cube.algorithm_parser('U')
-                    moves += ' U'
-                self.unsolved_cube.change_orientation(noted[0])
+                #moves += " " + "U"
+
+
+        self.unsolved_cube.restore_state()
+        if len(noted) != 0:
+            moves += self.unsolved_cube.change_orientation(noted[1])
+            front_face = self.unsolved_cube.get_cube()[2]
+            while (front_face[0][1] != front_face[1][1]):
+                self.unsolved_cube.algorithm_parser('U')
+                moves += ' U'
+            moves += self.unsolved_cube.change_orientation(noted[0])
 
             
         
-        return flag
+        return moves
 
                             
 
@@ -545,19 +552,23 @@ class Solver:
             case 1:
                 self.unsolved_cube.algorithm_parser(sune)
                 moves += sune
+                return moves
                 #self.permute_yellow_edges()
             case 2:
-                self.permute_yellow_edges_helper()        
-                if (flag):
-                    moves += sune
-                    self.unsolved_cube.algorithm_parser(sune)
-                    #print(moves)
-                    return moves
-                else:
-                    moves += sune
-                    self.unsolved_cube.algorithm_parser(sune)
-                    #self.permute_yellow_edges()
+                moves += self.permute_yellow_edges_helper()        
+                moves += sune
+                self.unsolved_cube.algorithm_parser(sune)
+                return moves
+    
 
+    def p_y_e(self):
+        moves = ""
+        # while self.no_of_yellow_edges_permuted()[0] != 4:
+            #moves += " " + self.no_of_yellow_edges_permuted()[1]            
+        moves += " " + self.permute_yellow_edges()
+        
+        print(moves)
+        
 
 
         
