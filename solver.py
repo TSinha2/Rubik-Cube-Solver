@@ -491,6 +491,7 @@ class Solver:
     def no_of_yellow_edges_permuted(self):
         counter=0
         moves = ''
+        self.unsolved_cube.save_state()
         for face in ['r', 'g', 'o', 'b']:
             self.unsolved_cube.change_orientation(face)
             front_face = self.unsolved_cube.get_cube()[2]
@@ -503,7 +504,9 @@ class Solver:
                     temp_counter+=1
                     if temp_counter > counter:
                         counter = temp_counter
+        self.unsolved_cube.restore_state()
         return [counter, moves]
+
         #return counter
 
 
@@ -551,7 +554,7 @@ class Solver:
         sune = " R U R' U R U2 R'"
         flag = False
         yellow_edges_permuted = self.no_of_yellow_edges_permuted()
-        moves += yellow_edges_permuted[1]
+        #moves += yellow_edges_permuted[1]
         match yellow_edges_permuted[0]:
             case 4:
                 return moves
@@ -570,7 +573,7 @@ class Solver:
     def p_y_e(self):
         moves = ""
         while self.no_of_yellow_edges_permuted()[0] != 4:
-            #moves += " " + self.no_of_yellow_edges_permuted()[1]            
+            moves += " " + self.no_of_yellow_edges_permuted()[1]            
             moves += " " + self.permute_yellow_edges()
         print("Permute Yellow Edge: ", moves)
         return moves
@@ -596,9 +599,9 @@ class Solver:
             colors.sort()
             corner.sort()
             if corner == colors:
-                print("FACE: ", face)
-                print("CORNERS: ", corner)
-                print("COLORS: ", colors)
+                # print("FACE: ", face)
+                # print("CORNERS: ", corner)
+                # print("COLORS: ", colors)
                 counter+= 1
         
         self.unsolved_cube.restore_state()
@@ -687,6 +690,10 @@ class Solver:
         moves += " " + self.white()
         moves += " " + self.white()
         moves += " " + self.second_layer()
+        # print("------------------------------------")
+        # print(moves)
+        # print("------------------------------------")
+
         moves += " " + self.orient_yellow_edges()
         moves += " " + self.p_y_e()
         moves += " " + self.o_y_c()
