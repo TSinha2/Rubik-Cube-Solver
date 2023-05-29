@@ -1,4 +1,5 @@
 from cgi import test
+from itertools import count, permutations
 from turtle import right
 from cube import Cube
 import numpy as np
@@ -324,6 +325,7 @@ class Solver:
                 moves += self.white_insert()
         
         print("Put the white corners: ",  moves)
+        return moves
     
     def second_layer_insert(self):
         yellow_face = self.unsolved_cube.get_cube()[1]
@@ -465,7 +467,7 @@ class Solver:
         moves += " ".join(" U" for i in range(yellow_edge_state[1]))
         match yellow_edge_state[0]:
             case 0:
-                pass
+                return moves
             case 1:
                 self.unsolved_cube.algorithm_parser("F R U R' U' F'")
                 moves += " F R U R' U' F'"
@@ -479,7 +481,11 @@ class Solver:
             case 3:
                 self.unsolved_cube.algorithm_parser(" F U R U' R' F'")
                 moves += " F U R U' R' F'"
+                #print("TEST: ", moves)
                 moves += self.orient_yellow_edges()
+                print("Yellow Cross: ", moves)
+                return moves
+
 
 
     def no_of_yellow_edges_permuted(self):
@@ -563,11 +569,11 @@ class Solver:
 
     def p_y_e(self):
         moves = ""
-        # while self.no_of_yellow_edges_permuted()[0] != 4:
+        while self.no_of_yellow_edges_permuted()[0] != 4:
             #moves += " " + self.no_of_yellow_edges_permuted()[1]            
-        moves += " " + self.permute_yellow_edges()
-        
+            moves += " " + self.permute_yellow_edges()
         print("Permute Yellow Edge: ", moves)
+        return moves
         
 
     def no_of_correctly_oriented_corners(self):
@@ -590,9 +596,9 @@ class Solver:
             colors.sort()
             corner.sort()
             if corner == colors:
-                # print("FACE: ", face)
-                # print("CORNERS: ", corner)
-                # print("COLORS: ", colors)
+                print("FACE: ", face)
+                print("CORNERS: ", corner)
+                print("COLORS: ", colors)
                 counter+= 1
         
         self.unsolved_cube.restore_state()
@@ -613,6 +619,7 @@ class Solver:
             moves += ' U'
         alg = " U R U' L' U R' U' L"
         counter = self.no_of_correctly_oriented_corners()
+        print("COUNTER: ", counter)
         
         match counter:
             case 4:
@@ -643,6 +650,10 @@ class Solver:
                 #moves += self.orient_yellow_corners()
                 # print("Orient yellow corners: ", moves)
                 return moves
+            
+
+
+
 
         #print("Orient yellow corners: ", moves)
 
@@ -652,6 +663,7 @@ class Solver:
             moves += self.orient_yellow_corners()
         
         print("Orient Yellow Corners: ", moves)
+        return moves
     
     def permute_yellow_corners(self):
         alg = " R' D' R D"
@@ -666,6 +678,24 @@ class Solver:
         
 
         print("Permute Yellow Corners (AND SOLVE THE CUBE): ", moves)
+        return moves
+    
+
+    def solve(self):
+        moves = ""
+        moves += " " + self.cross()
+        moves += " " + self.white()
+        moves += " " + self.white()
+        moves += " " + self.second_layer()
+        moves += " " + self.orient_yellow_edges()
+        moves += " " + self.p_y_e()
+        moves += " " + self.o_y_c()
+        moves += " " + self.permute_yellow_corners()
+        print("------------------------------------")
+        print(moves)
+
+
+
 
 
 
