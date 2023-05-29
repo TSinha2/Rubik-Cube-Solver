@@ -567,7 +567,7 @@ class Solver:
             #moves += " " + self.no_of_yellow_edges_permuted()[1]            
         moves += " " + self.permute_yellow_edges()
         
-        print(moves)
+        print("Permute Yellow Edge: ", moves)
         
 
     def no_of_correctly_oriented_corners(self):
@@ -578,6 +578,7 @@ class Solver:
             - Check the lower right corner to see if it matches the front, right and upper layers colors
             - Change orientation to account for all 4 corners
         """
+        self.unsolved_cube.save_state()
         counter = 0
         for face in 'r g o b'.split():
             self.unsolved_cube.change_orientation(face)
@@ -589,12 +590,15 @@ class Solver:
             colors.sort()
             corner.sort()
             if corner == colors:
-                print("FACE: ", face)
-                print("CORNERS: ", corner)
-                print("COLORS: ", colors)
+                # print("FACE: ", face)
+                # print("CORNERS: ", corner)
+                # print("COLORS: ", colors)
                 counter+= 1
         
-        print(counter)
+        self.unsolved_cube.restore_state()
+        return counter
+
+        #print(counter)
         
 
         
@@ -607,29 +611,11 @@ class Solver:
         while (front_face[0][1] != front_face[1][1]):
             self.unsolved_cube.algorithm_parser('U')
             moves += ' U'
-        print("Test ", moves)
-        counter = 0
         alg = " U R U' L' U R' U' L"
-        
-        for face in ['r', 'g', 'o', 'b']:
-            self.unsolved_cube.change_orientation(face)
-            temp_counter = 0
-            yellow_face = self.unsolved_cube.get_cube()[1]
-            front_face = self.unsolved_cube.get_cube()[2]                    
-            right_face = self.unsolved_cube.get_cube()[4]
-            colors = [yellow_face[1][1], front_face[1][1], right_face[1][1]]
-            corner = [yellow_face[2][2], front_face[0][2], right_face[0][2]]
-            if yellow_face[2][2] in colors and front_face[0][2] in colors and right_face[0][2] in colors:
-                temp_counter += 1
-
-            if counter < temp_counter:
-                counter = temp_counter
-        
-        print("COUNTER: ", counter)
+        counter = self.no_of_correctly_oriented_corners()
         
         match counter:
             case 4:
-                print("Orient yellow corners: ", moves)
                 return moves
             case 1:
                 noted = []
@@ -661,7 +647,27 @@ class Solver:
         #print("Orient yellow corners: ", moves)
 
     def o_y_c(self):
-        print("Move:", self.orient_yellow_corners())
+        moves = ""
+        while self.no_of_correctly_oriented_corners() != 4:
+            moves += self.orient_yellow_corners()
+        
+        print("Orient Yellow Corners: ", moves)
+    
+    def permute_yellow_corners(self):
+        alg = " R' D' R D"
+        moves = ""
+        yellow_face = self.unsolved_cube.get_cube()[1]
+        for i in range(4):
+            while yellow_face[2][2] != 'y':
+                moves += alg
+                self.unsolved_cube.algorithm_parser(alg)
+            moves += " U"
+            self.unsolved_cube.algorithm_parser(" U")
+        
+
+        print("Permute Yellow Corners (AND SOLVE THE CUBE): ", moves)
+
+
 
 
 
