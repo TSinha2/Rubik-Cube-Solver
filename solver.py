@@ -101,7 +101,7 @@ class Solver:
                 self.unsolved_cube.restore_state()       
                 # if len(move) == 2 and move[1] != '2':
                 #     self.unsolved_cube.algorithm_parser(move[0])
-                print("Iteration: ", i)
+                # print("Iteration: ", i)
                 # print("YELLOW face:\n ", self.unsolved_cube.get_cube()[1])
                 # print("BLUE face:\n ", self.unsolved_cube.get_cube()[2])
                 # if len(move) == 2 and move[1] == '2':
@@ -160,8 +160,6 @@ class Solver:
                                 flag = True
                             moves += self.white_to_yellow_helper("R")
                             if (flag):
-                                print("FACE: ", face)
-                                print(self.unsolved_cube.get_cube())
                                 moves+=self.white_to_yellow_helper("F")
 
         moves += self.unsolved_cube.default_orientation()
@@ -283,23 +281,33 @@ class Solver:
 
     def white_incorrectly_solved(self):
         moves = ''
-        face_to_check = self.unsolved_cube.get_cube()[2]
-        for i in range(4):
+        front_face = self.unsolved_cube.get_cube()[2]
+        # for i in range(4):
 
-            if 'w' in self.unsolved_cube.get_cube()[1][2]:
-                if (face_to_check[1][1] != face_to_check[2][2]):
-                    self.unsolved_cube.algorithm_parser("R U' R'")
-                    moves += " R U' R'"
-                    return moves
+        #     if 'w' in self.unsolved_cube.get_cube()[1][2]:
+        #         if (self.unsolved_cube.get_cube()[2][1] != face_to_check[2][2]):
+        #             self.unsolved_cube.algorithm_parser("R U' R'")
+        #             moves += " R U' R'"
+        #             return moves
 
-                if (face_to_check[2][0] == face_to_check[1][1]):
-                    self.unsolved_cube.algorithm_parser("L' U' L")
-                    moves += " L' U' L"
-                    return moves
+        #         if (face_to_check[2][0] == face_to_check[1][1]):
+        #             self.unsolved_cube.algorithm_parser("L' U' L")
+        #             moves += " L' U' L"
+        #             return moves
 
 
-            self.unsolved_cube.algorithm_parser('U')
-            moves += ' U'
+        #     self.unsolved_cube.algorithm_parser('U')
+        #     moves += ' U'
+        # print("White face message ", self.unsolved_cube.get_cube()[0][0][0])
+        # print("Front face corner ", front_face[2][0])
+        # print("Front face edge ", front_face[2][1])
+
+
+        if 'w' == self.unsolved_cube.get_cube()[0][0][0] and front_face[2][0] != front_face[2][1]:
+            self.unsolved_cube.algorithm_parser("L' U' L")   
+            moves += " L' U' L"         
+            return moves
+
         
         return ''
 
@@ -311,9 +319,14 @@ class Solver:
         else:
             cross += self.cross()
             self.white_solved = True
-        print("Cross: ", cross)
+        #print("Cross: ", cross)
         faces = ['r', 'g', 'o', 'b']
-        while not np.array_equal(self.unsolved_cube.get_cube()[0], self.solved[0]) :
+
+        for face in faces:
+            moves += self.unsolved_cube.change_orientation(face)
+            moves += self.white_incorrectly_solved()
+
+        while not np.array_equal(self.unsolved_cube.get_cube()[0], self.solved[0]):
             for face in faces:
                 moves += self.unsolved_cube.change_orientation(face)
                 moves += self.white_insert()
@@ -324,8 +337,12 @@ class Solver:
                 moves += self.white_incorrectly_solved()
                 moves += self.white_insert()
         
-        print("Put the white corners: ",  moves)
+        #print("Put the white corners: ",  moves)
         return moves
+
+
+
+
     
     def second_layer_insert(self):
         yellow_face = self.unsolved_cube.get_cube()[1]
@@ -429,7 +446,7 @@ class Solver:
         #         moves += self.second_layer_insert()
         #         print('Loop')
         
-        print("Second Layer: ", moves)
+        # print("Second Layer: ", moves)
         return moves
     
     def check_yellow_edges(self, edges):            
@@ -471,19 +488,19 @@ class Solver:
             case 1:
                 self.unsolved_cube.algorithm_parser("F R U R' U' F'")
                 moves += " F R U R' U' F'"
-                print("Yellow Cross: ", moves)
+                # print("Yellow Cross: ", moves)
                 return moves
             case 2:
                 self.unsolved_cube.algorithm_parser(" F U R U' R' F'")
                 moves += " F U R U' R' F'"
-                print("Yellow Cross: ", moves)
+                # print("Yellow Cross: ", moves)
                 return moves
             case 3:
                 self.unsolved_cube.algorithm_parser(" F U R U' R' F'")
                 moves += " F U R U' R' F'"
                 #print("TEST: ", moves)
                 moves += self.orient_yellow_edges()
-                print("Yellow Cross: ", moves)
+                # print("Yellow Cross: ", moves)
                 return moves
 
 
@@ -524,7 +541,7 @@ class Solver:
             back_face = self.unsolved_cube.get_cube()[3]
             for i in range(4):
                 if back_face[1][1] == back_face[0][1] and right_face[1][1] == right_face[0][1]:
-                    print("RESULTS: ", face, back_face[0][1], right_face[0][1])
+                    #print("RESULTS: ", face, back_face[0][1], right_face[0][1])
                     noted.extend((face, right_face[0][1]))
                     #self.unsolved_cube.display_cube()
                     flag = True
@@ -542,8 +559,6 @@ class Solver:
                 moves += ' U'
             moves += self.unsolved_cube.change_orientation(noted[0])
 
-            
-        
         return moves
 
                             
@@ -573,9 +588,9 @@ class Solver:
     def p_y_e(self):
         moves = ""
         while self.no_of_yellow_edges_permuted()[0] != 4:
-            moves += " " + self.no_of_yellow_edges_permuted()[1]            
+            #moves += " " + self.no_of_yellow_edges_permuted()[1]            
             moves += " " + self.permute_yellow_edges()
-        print("Permute Yellow Edge: ", moves)
+        # print("Permute Yellow Edge: ", moves)
         return moves
         
 
@@ -588,6 +603,10 @@ class Solver:
             - Change orientation to account for all 4 corners
         """
         self.unsolved_cube.save_state()
+        front_face = self.unsolved_cube.get_cube()[2]
+        while (front_face[0][1] != front_face[1][1]):
+            self.unsolved_cube.algorithm_parser('U')
+
         counter = 0
         for face in 'r g o b'.split():
             self.unsolved_cube.change_orientation(face)
@@ -621,8 +640,10 @@ class Solver:
             self.unsolved_cube.algorithm_parser('U')
             moves += ' U'
         alg = " U R U' L' U R' U' L"
+        print("TEST:" , moves)
         counter = self.no_of_correctly_oriented_corners()
-        print("COUNTER: ", counter)
+        # print("COUNTER: ", counter)
+        # print(self.unsolved_cube.get_cube())
         
         match counter:
             case 4:
@@ -665,12 +686,13 @@ class Solver:
         while self.no_of_correctly_oriented_corners() != 4:
             moves += self.orient_yellow_corners()
         
-        print("Orient Yellow Corners: ", moves)
+        # print("Orient Yellow Corners: ", moves)
         return moves
     
     def permute_yellow_corners(self):
         alg = " R' D' R D"
         moves = ""
+
         yellow_face = self.unsolved_cube.get_cube()[1]
         for i in range(4):
             while yellow_face[2][2] != 'y':
@@ -680,7 +702,7 @@ class Solver:
             self.unsolved_cube.algorithm_parser(" U")
         
 
-        print("Permute Yellow Corners (AND SOLVE THE CUBE): ", moves)
+        # print("Permute Yellow Corners (AND SOLVE THE CUBE): ", moves)
         return moves
     
 
@@ -690,16 +712,23 @@ class Solver:
         moves += " " + self.white()
         moves += " " + self.white()
         moves += " " + self.second_layer()
+        # print(moves)
         # print("------------------------------------")
         # print(moves)
         # print("------------------------------------")
 
         moves += " " + self.orient_yellow_edges()
+        # print(moves)
+
         moves += " " + self.p_y_e()
+        # print(moves)
+
         moves += " " + self.o_y_c()
         moves += " " + self.permute_yellow_corners()
-        print("------------------------------------")
-        print(moves)
+        #print("SOLUTION: ", moves)
+        return moves
+        # print("------------------------------------")
+       # print(moves)
 
 
 
