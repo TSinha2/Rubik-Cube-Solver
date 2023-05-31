@@ -2,7 +2,7 @@ import numpy as np
 from copy import deepcopy
 
 class Cube:
-    def __init__(self):
+    def __init__(self, cubeState=None):
         """
         Instantiate the Rubik's cube as a 6x3x3 using Numpy arrays
             Cube[0] -> White
@@ -16,13 +16,40 @@ class Cube:
             Blue facing the user, Green behind
             Orange on the left, Red on the right
             Yellow on the top, White on the bottom
+
+        If the user inputs the state of their own cube to be solved:
+        It should be in 'www...>' format (i.e. a string of length 54)
+
+        The first 9 colors represent the white face (with blue side facing upwards)
+        in the following format
+        1 2 3
+        4 5 6
+        7 8 9
+
+        The next 9 represent the yellow face (with blue facing downwards) -- using the same format mentioned earlier
+
+        Following are the blue face, green face, red face, orange face -- all in the aforementioned format. Note that for each of 
+        these faces, yellow is on the top, and white is on the bottom
+
         """        
-        white_face = np.array([['w' for i in range(3)] for i in range(3)])
-        yellow_face = np.array([['y' for i in range(3)] for i in range(3)])
-        blue_face = np.array([['b' for i in range(3)] for i in range(3)])
-        green_face = np.array([['g' for i in range(3)] for i in range(3)])
-        red_face = np.array([['r' for i in range(3)] for i in range(3)])
-        orange_face = np.array([['o' for i in range(3)] for i in range(3)])
+        if cubeState == None:
+            white_face = np.array([['w' for i in range(3)] for i in range(3)])
+            yellow_face = np.array([['y' for i in range(3)] for i in range(3)])
+            blue_face = np.array([['b' for i in range(3)] for i in range(3)])
+            green_face = np.array([['g' for i in range(3)] for i in range(3)])
+            red_face = np.array([['r' for i in range(3)] for i in range(3)])
+            orange_face = np.array([['o' for i in range(3)] for i in range(3)])
+        else:
+            assert(len(cubeState) == 54)
+            white_face = self.convert_face(cubeState[0:9])
+            yellow_face = self.convert_face(cubeState[9:18])
+            blue_face = self.convert_face(cubeState[18:27])
+            green_face = np.fliplr(self.convert_face(cubeState[27:36]))
+            red_face = np.fliplr(self.convert_face(cubeState[36:45]))
+            orange_face = self.convert_face(cubeState[45:54])
+
+
+
         cube = []
         cube.extend((white_face, yellow_face, blue_face, green_face, red_face, orange_face))
         self.cube = np.stack(cube, 0)
@@ -37,6 +64,20 @@ class Cube:
 
         #
 
+    def convert_face(self, state):
+        """
+        Given the string version of a face, turn it into a suitable numpy array
+        """
+        assert len(state) == 9
+        assert type(state) == str
+        row1 = [i for i in state[0:3]]
+        row2 = [i for i in state[3:6]]
+        row3 = [i for i in state[6:9]]
+        face = np.array((row1, row2, row3))
+        return face
+
+
+        pass
     def turn_horizontal(self, row: int) -> None:
         """
         Function for the horizontal turns (U, D' in Rubik's Cube notation)
