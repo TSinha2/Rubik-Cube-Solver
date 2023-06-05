@@ -9,7 +9,7 @@ cap = cv2.VideoCapture(0)
 
 # Constants for k-means clustering
 NUM_CLUSTERS = 1
-NUM_COLORS = 6
+NUM_COLORS = 50
 
 # Initialize variables for color identification
 # color_identified = 0
