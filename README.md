@@ -32,6 +32,14 @@ sample_solver_2 = Solver(sample_cube)
 sample_solver_2.solve() # Returns string with moves to solve Cube 
 ```
 
+To use the webcam to get the scramble: 
+``` python face_id.py```
+First, 'teach' the program how the colors look. Do this by FIRSTLY putting the white color from the cube in the centre of the square on the webcam, and pressing ```c```. Repeat this process for yellow, blue, green, red and orange. 
+
+After teaching the cube, how the colors look, put in the faces in the following order: white, yellow, blue, green, red and orange.  To put in a face, match it to the grid on the webcam as best as you possibly can, and then pressing ```space```. After the 6th (orange) face, you will have a string representing the cube state that can bes solved using the method described above. 
+
+Note using the webcam to get the scramble is not perfectly accurate, and often mistakes white for yellow, orange for red and vice versa (in both cases). 
+
 Optional:
 To visualize how the cube looked (in a 2D "net"), there is also a file called display.py, that uses the pygame library. It was primarily used for debugging --- however if you want to use it, just modify "test_cube" in that file with your own scramble and run it: ```python3 display.py```
 
