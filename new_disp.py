@@ -1,8 +1,8 @@
-from lib2to3.pytree import convert
 import sys
 from PySide6.QtWidgets import QApplication, QWidget
 from PySide6.QtGui import QPalette, QColor
 from PySide6.QtWidgets import QGridLayout
+from cube import Cube
 
 class CubeSide(QWidget):
     def __init__(self, colors):
@@ -33,6 +33,8 @@ def cubeFace2CubeNet(side):
 
 class CubeNet(QWidget):
     def __init__(self):
+        test_cube = Cube()
+        test_cube.algorithm_parser("D' L2 F' R2 B2 L U2 D' L' R' U2 D L' F' B' R F2 D B D' R U2 R2 U L2")
         super(CubeNet, self).__init__()
 
         self.setWindowTitle("Cube Net")
@@ -41,28 +43,31 @@ class CubeNet(QWidget):
 
         # Yellow side 
 
-        colors_yellow = [['yellow', 'yellow', 'yellow'],
-                         ['yellow', 'yellow', 'yellow'],
-                         ['yellow', 'yellow', 'yellow']]
-
+        # colors_yellow = [['yellow', 'yellow', 'yellow'],
+        #                  ['yellow', 'yellow', 'yellow'],
+        #                  ['yellow', 'yellow', 'yellow']]
+        colors_yellow = cubeFace2CubeNet(test_cube.get_cube()[1])
         layout.addWidget(CubeSide(colors_yellow), 0, 1)
 
         # White side 
-        colors_white = [['white', 'white', 'white'],
-                         ['white', 'white', 'white'],
-                         ['white', 'white', 'white']]                      
+        # colors_white = [['white', 'white', 'white'],
+        #                  ['white', 'white', 'white'],
+        #                  ['white', 'white', 'white']]   
+        colors_white = cubeFace2CubeNet(test_cube.get_cube()[0])
         layout.addWidget(CubeSide(colors_white), 2, 1)
 
         # Blue side
-        colors_blue = [['blue', 'blue', 'blue'],
-                       ['blue', 'blue', 'blue'],
-                       ['blue', 'blue', 'blue']]
+        # colors_blue = [['blue', 'blue', 'blue'],
+        #                ['blue', 'blue', 'blue'],
+        #                ['blue', 'blue', 'blue']]
+        colors_blue = cubeFace2CubeNet(test_cube.get_cube()[2])
         layout.addWidget(CubeSide(colors_blue), 1, 1)
 
         # Blue side with a grid of yellow squares
-        colors_orange = [['orange', 'orange', 'orange'],
-                         ['orange', 'orange', 'orange'],
-                         ['orange', 'orange', 'orange']]
+        # colors_orange = [['orange', 'orange', 'orange'],
+        #                  ['orange', 'orange', 'orange'],
+        #                  ['orange', 'orange', 'orange']]
+        colors_orange = cubeFace2CubeNet(test_cube.get_cube()[5])
 
         layout.addWidget(CubeSide(colors_orange), 1, 0)
 
@@ -70,12 +75,14 @@ class CubeNet(QWidget):
         colors_red = [['red', 'red', 'red'],
                       ['red', 'red', 'red'],
                       ['red', 'red', 'red']]
+        colors_red = cubeFace2CubeNet(test_cube.get_cube()[4])
         layout.addWidget(CubeSide(colors_red), 1, 2)
 
         # Green side 
-        colors_green = [['green', 'green', 'green'],
-                        ['green', 'green', 'green'],
-                        ['green', 'green', 'green']]
+        # colors_green = [['green', 'green', 'green'],
+        #                 ['green', 'green', 'green'],
+        #                 ['green', 'green', 'green']]
+        colors_green = cubeFace2CubeNet(test_cube.get_cube()[3])
 
         layout.addWidget(CubeSide(colors_green), 1, 3)
 
