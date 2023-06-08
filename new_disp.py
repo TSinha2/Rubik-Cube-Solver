@@ -1,3 +1,4 @@
+from lib2to3.pytree import convert
 import sys
 from PySide6.QtWidgets import QApplication, QWidget
 from PySide6.QtGui import QPalette, QColor
@@ -21,6 +22,14 @@ class CubeSide(QWidget):
 
         self.setLayout(layout)
 
+
+def cubeFace2CubeNet(side):
+    conversion = {'o': 'orange', 'b': 'blue', 'g': 'green', 'r': 'red', 'w': 'white', 'y': 'yellow'}
+    CubeNetFace = []
+    for row in side:
+        CubeNetFace.append(list(map(lambda i: conversion[i], row)))
+    
+    return CubeNetFace
 
 class CubeNet(QWidget):
     def __init__(self):
