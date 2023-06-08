@@ -1,8 +1,7 @@
 import sys
-from PySide6.QtWidgets import QApplication, QMainWindow, QWidget, QLabel
-from PySide6.QtGui import QPalette, QColor, QFont
-from PySide6.QtWidgets import QVBoxLayout, QGridLayout
-from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QApplication, QWidget
+from PySide6.QtGui import QPalette, QColor
+from PySide6.QtWidgets import QGridLayout
 
 class CubeSide(QWidget):
     def __init__(self, colors):
@@ -13,6 +12,7 @@ class CubeSide(QWidget):
         for row in range(3):
             for col in range(3):
                 color_widget = QWidget()
+                # color_widget.setFixedSize(85, 85)               
                 color_widget.setAutoFillBackground(True)
                 palette = color_widget.palette()
                 palette.setColor(QPalette.Window, QColor(colors[row][col]))
@@ -30,41 +30,45 @@ class CubeNet(QWidget):
 
         layout = QGridLayout()
 
-        # Yellow side with a grid of green squares
-        colors_green = [['green', 'green', 'green'],
-                        ['green', 'green', 'green'],
-                        ['green', 'green', 'green']]
-        layout.addWidget(CubeSide(colors_green), 0, 1)
+        # Yellow side 
 
-        # White side with a grid of red squares
-        colors_red = [['red', 'red', 'red'],
-                      ['red', 'red', 'red'],
-                      ['red', 'red', 'red']]
-        layout.addWidget(CubeSide(colors_red), 2, 1)
+        colors_yellow = [['yellow', 'yellow', 'yellow'],
+                         ['yellow', 'yellow', 'yellow'],
+                         ['yellow', 'yellow', 'yellow']]
 
-        # Red side with a grid of blue squares
+        layout.addWidget(CubeSide(colors_yellow), 0, 1)
+
+        # White side 
+        colors_white = [['white', 'white', 'white'],
+                         ['white', 'white', 'white'],
+                         ['white', 'white', 'white']]                      
+        layout.addWidget(CubeSide(colors_white), 2, 1)
+
+        # Blue side
         colors_blue = [['blue', 'blue', 'blue'],
                        ['blue', 'blue', 'blue'],
                        ['blue', 'blue', 'blue']]
         layout.addWidget(CubeSide(colors_blue), 1, 1)
 
         # Blue side with a grid of yellow squares
-        colors_yellow = [['yellow', 'yellow', 'yellow'],
-                         ['yellow', 'yellow', 'yellow'],
-                         ['yellow', 'yellow', 'yellow']]
-        layout.addWidget(CubeSide(colors_yellow), 1, 0)
-
-        # Orange side with a grid of purple squares
-        colors_purple = [['purple', 'purple', 'purple'],
-                         ['purple', 'purple', 'purple'],
-                         ['purple', 'purple', 'purple']]
-        layout.addWidget(CubeSide(colors_purple), 1, 2)
-
-        # Green side with a grid of orange squares
         colors_orange = [['orange', 'orange', 'orange'],
                          ['orange', 'orange', 'orange'],
                          ['orange', 'orange', 'orange']]
-        layout.addWidget(CubeSide(colors_orange), 1, 3)
+
+        layout.addWidget(CubeSide(colors_orange), 1, 0)
+
+        # Red side
+        colors_red = [['red', 'red', 'red'],
+                      ['red', 'red', 'red'],
+                      ['red', 'red', 'red']]
+        layout.addWidget(CubeSide(colors_red), 1, 2)
+
+        # Green side 
+        colors_green = [['green', 'green', 'green'],
+                        ['green', 'green', 'green'],
+                        ['green', 'green', 'green']]
+
+        layout.addWidget(CubeSide(colors_green), 1, 3)
 
         self.setLayout(layout)
 
