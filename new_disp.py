@@ -1,6 +1,6 @@
 import sys
-from PySide6.QtWidgets import QApplication, QWidget, QGridLayout, QLineEdit
-from PySide6.QtGui import QPalette, QColor
+from PySide6.QtWidgets import QApplication, QWidget, QGridLayout, QLineEdit, QLabel
+from PySide6.QtGui import QPalette, QColor, QFont
 from PySide6.QtCore import Qt
 from cube import Cube
 from numpy import fliplr
@@ -78,6 +78,27 @@ class CubeNet(QWidget):
         self.green_side = CubeSide(colors_green)
         layout.addWidget(self.green_side, 2, 3)
 
+        # List of squares
+        squares_label = QLabel("List of Squares:")
+        squares_label.setAlignment(Qt.AlignLeft)
+        squares_label.setFont(QFont("Arial", 12, QFont.Bold))
+        layout.addWidget(squares_label, 4, 0, 1, 6)
+
+        squares_colors = ["white", "yellow", "red", "blue", "green", "orange"]
+        squares_layout = QGridLayout()
+        for i, color in enumerate(squares_colors):
+            square_widget = QWidget()
+            square_widget.setFixedSize(100, 100)  # Adjust the size of the square widget
+            square_widget.setAutoFillBackground(True)
+            palette = square_widget.palette()
+            palette.setColor(QPalette.Window, QColor(color))
+            square_widget.setPalette(palette)
+            squares_layout.addWidget(square_widget, 0, i)
+
+        squares_widget = QWidget()
+        squares_widget.setLayout(squares_layout)
+        layout.addWidget(squares_widget, 5, 0, 1, 6)
+
         self.setLayout(layout)
 
         # Connect Enter key press to algorithm parsing
@@ -87,7 +108,7 @@ class CubeNet(QWidget):
 
     def parse_algorithm(self):
         algorithm = self.sender().text()
-        self.sender().clear()          
+        self.sender().clear()
         self.test_cube.algorithm_parser(algorithm)
         self.update_cube_net()
 
