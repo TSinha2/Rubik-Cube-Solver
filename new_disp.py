@@ -3,6 +3,7 @@ from PySide6.QtWidgets import QApplication, QWidget, QGridLayout, QLineEdit
 from PySide6.QtGui import QPalette, QColor
 from PySide6.QtCore import Qt
 from cube import Cube
+from numpy import fliplr
 
 class CubeSide(QWidget):
     def __init__(self, colors):
@@ -45,6 +46,7 @@ class CubeNet(QWidget):
 
         # Cube
         test_cube = Cube()
+        test_cube.algorithm_parser("D' L2 F' R2 B2 L U2 D' L' R' U2 D L' F' B' R F2 D B D' R U2 R2 U L2")
 
         # Yellow side
         colors_yellow = cubeFace2CubeNet(test_cube.get_cube()[1])
@@ -67,12 +69,12 @@ class CubeNet(QWidget):
         layout.addWidget(self.orange_side, 2, 0)
 
         # Red side
-        colors_red = cubeFace2CubeNet(test_cube.get_cube()[4])
+        colors_red = cubeFace2CubeNet(fliplr(test_cube.get_cube()[4]))
         self.red_side = CubeSide(colors_red)
         layout.addWidget(self.red_side, 2, 2)
 
         # Green side
-        colors_green = cubeFace2CubeNet(test_cube.get_cube()[3])
+        colors_green = cubeFace2CubeNet(fliplr(test_cube.get_cube()[3]))
         self.green_side = CubeSide(colors_green)
         layout.addWidget(self.green_side, 2, 3)
 
