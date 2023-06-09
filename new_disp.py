@@ -104,10 +104,10 @@ class CubeNet(QWidget):
         colors_orange = cubeFace2CubeNet(self.test_cube.get_cube()[5])
         self.update_side_colors(self.orange_side, colors_orange)
 
-        colors_red = cubeFace2CubeNet(self.test_cube.get_cube()[4])
+        colors_red = cubeFace2CubeNet(fliplr(self.test_cube.get_cube()[4]))
         self.update_side_colors(self.red_side, colors_red)
 
-        colors_green = cubeFace2CubeNet(self.test_cube.get_cube()[3])
+        colors_green = cubeFace2CubeNet(fliplr(self.test_cube.get_cube()[3]))
         self.update_side_colors(self.green_side, colors_green)
 
     def update_side_colors(self, side_widget, colors):
