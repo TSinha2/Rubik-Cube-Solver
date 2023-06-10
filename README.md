@@ -43,3 +43,10 @@ Note using the webcam to get the scramble is not perfectly accurate, and often m
 Optional:
 To visualize how the cube looked (in a 2D "net"), there is also a file called display.py, that uses the pygame library. It was primarily used for debugging --- however if you want to use it, just modify "test_cube" in that file with your own scramble and run it: ```python3 display.py```
 
+WIP: 
+To visualize the cube using PySide6 (i.e. PyQT), you can use new_disp.py. Run it using ```python3 new_disp.py```. Unlike the Pygame implementation, it has text input to parse algorithms in the UI. 
+
+TODO: 
+1) Add Option to Click and Select individual squares
+2) Integrate camera recog functionality into UI
+
