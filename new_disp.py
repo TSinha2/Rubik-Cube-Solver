@@ -4,6 +4,7 @@ from cube import Cube
 from numpy import fliplr
 
 # ui.add_head_html('<style>body {background-color: #c9c5c5; }</style>')
+ui.dark_mode(True)
 
 def create_side_buttons(side, grid_id, color):
     with ui.grid(columns=3):
@@ -71,16 +72,7 @@ def CubeFace2NiceGUIside(CubeFace):
 sides = [CubeFace2NiceGUIside(i) for i in test_cube.get_cube()]      
 
 
-# ui.colors(primary="#ffffff")
 #ui.input('Algorithm', placeholder='Enter your algorithm here').style('color: white; background-color: #333; border: 1px solid #777; padding: 8px; font-family: monospace; font-size: 14px;')
-ui.input("Algorithm", placeholder='Enter your algorithm here')
-
-# a = {'g': 'green', 'o': 'orange', 'b': 'blue', 'r': 'red', 'w': 'white', 'y': 'yellow'}
-# for side in test_cube.get_cube():
-#     for row in side:
-#         s = list(map(lambda i: a[i], row))
-#         s.append
-
-
-
+algorithm_input = ui.input("Algorithm", placeholder='Enter your algorithm here')
+# print(ui.label().bind_text_from(algorithm_input, 'value'))
 create_rubiks_cube(sides)
