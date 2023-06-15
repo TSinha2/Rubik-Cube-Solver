@@ -729,6 +729,44 @@ class Solver:
         return moves
         # print("------------------------------------")
        # print(moves)
+    
+    def human_readable_solver(self):
+        moves = {}
+        cross = self.cross()
+        moves['cross'] = cross
+        
+        white = self.white()
+        moves['white'] = white
+
+        moves['second_layer'] = self.second_layer()
+
+        # print(moves)
+        # print("------------------------------------")
+        # print(moves)
+        # print("------------------------------------")
+
+        moves['orient_yellow_edge'] = self.orient_yellow_edges()
+        # print(moves)
+
+        moves['permute_yellow_edge'] = self.p_y_e()
+
+        moves['orient_yellow_corners'] = self.o_y_c()
+        moves['permute_yellow_corners'] = self.permute_yellow_corners()
+
+        final_moves = """
+        Cross: {} \n
+        Solving the white face: {} \n
+        Second Layer: {} \n
+        Orient Yellow Edges: {} \n
+        Permute Yellow Edges: {} \n
+        Orient Yellow Corners: {} \n
+        Permute Yellow Corners: {}
+
+        """.format(cross, white, moves['second_layer'] ,moves['orient_yellow_edge'], moves['permute_yellow_edge'], moves['orient_yellow_corners'],moves['permute_yellow_corners'])
+        #print("SOLUTION: ", moves)
+        return final_moves
+
+
 
 
 
