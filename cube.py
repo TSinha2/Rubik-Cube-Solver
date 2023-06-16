@@ -270,21 +270,30 @@ class Cube:
             else:
                 pass
 
-    def save_state(self) -> None:
+    def save_state(self, given_state=''):
         """
         Saves the state (i.e. each face) of the cube
         
         Return: None
         """
-        self.save = deepcopy(self.cube)
+        if len(given_state) != 6:
+            self.save = deepcopy(self.cube)
+        else:
+            self.save = deepcopy(given_state)
+
+        return self.save            
+
         
-    def restore_state(self) -> None:
+    def restore_state(self, given_state='') -> None:
         """
         Restores the previously saved state
 
         Return: None
         """
-        self.cube = deepcopy(self.save)
+        if len(given_state) != 6:
+            self.cube = deepcopy(self.save)
+        else:
+            self.cube = deepcopy(given_state)
     
     def change_orientation(self, front: str) -> None:
         """

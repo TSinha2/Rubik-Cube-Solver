@@ -1,3 +1,4 @@
+from cgi import test
 import customtkinter as ctk
 from cube import Cube
 from numpy import fliplr
@@ -109,12 +110,15 @@ def handle_parse_algorithm():
     update_cube_ui()
 
 def handle_solve():
+    global test_cube
+    old_state = test_cube.save_state()
     solver = Solver(test_cube)
     solution = solver.human_readable_solver()  # Assuming the solve() function returns the solution
     solution_text.configure(state='normal')
     solution_text.delete('1.0', 'end')
     solution_text.insert('end', solution)
     solution_text.configure(state='disabled')
+    test_cube.restore_state(old_state)
     update_cube_state()
     update_cube_ui()
 
