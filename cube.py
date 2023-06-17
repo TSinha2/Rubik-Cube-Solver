@@ -321,6 +321,20 @@ class Cube:
     
     def get_cube(self):
         return self.cube
+    
+    def str_cube_state(self):
+        state = ''
+        for face_index in range(6):
+            for row in self.cube[face_index]:
+                if face_index == 3 or face_index == 4:
+                    for color in row[::-1]:
+                        state += color
+                else:
+                    for color in row:
+                        state += color
+        
+        return state
+
 
 
 
