@@ -119,6 +119,3 @@ class FaceID:
                     return identified_colors
 
 
-face_id = FaceID()
-cube_state = face_id.get_cube_state(['white'])
-print(cube_state)
