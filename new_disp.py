@@ -63,17 +63,57 @@ BOTTOM_FACE_ROW = 6
 SQUARE_SIZE = 50
 PADX = 5
 PADY = 5
+CHANGE_COLOR_ROW = 850 
+
+clicked_color = ''
+
+def set_clicked_color(color):
+    global clicked_color
+    clicked_color=color
 
 def handle_button_click(face, row, column):
     print(f"Button pressed: Face {face}, Row {row}, Column {column}")
+
+def update_button_color(face, row, col):
+    face_grid_conversions = {5: 0, 1:5, 0:1, 2:2, 3:4, 4:3}
+    global test_cube, clicked_color, order
+    str_state = test_cube.str_cube_state()
+    str_index = (3*row + col) + face_grid_conversions[face]*9
+    str_state = list(str_state)
+    str_state[str_index] = clicked_color[0]
+    str_state = ''.join(str_state)
+    test_cube = Cube(str_state)
+    update_cube_state()
+    update_cube_ui()
+
+
+
+
+# def create_button(face, row, column):
+#     color = cube[face][row][column]
+#     return ctk.CTkButton(
+#         text='', master=app, width=SQUARE_SIZE, height=SQUARE_SIZE,
+#         command=lambda f=face, r=row, c=column: handle_button_click(f, r, c),
+#         fg_color=color
+#     )
+
 
 def create_button(face, row, column):
     color = cube[face][row][column]
     return ctk.CTkButton(
         text='', master=app, width=SQUARE_SIZE, height=SQUARE_SIZE,
-        command=lambda f=face, r=row, c=column: handle_button_click(f, r, c),
+        command=lambda f=face, r=row, c=column: update_button_color(f, r, c),
         fg_color=color
     )
+
+def change_color_button(color):
+    color = color
+    return ctk.CTkButton(
+        text='', master=app, width=SQUARE_SIZE, height=SQUARE_SIZE,
+        command=lambda c=color: set_clicked_color(c),
+        fg_color=color
+    )
+
 
 def create_cube_ui():
     buttons = []
@@ -100,6 +140,15 @@ def create_cube_ui():
             face_buttons.append(row_buttons)
 
         buttons.append(face_buttons)
+
+        colors = ["white", "yellow", "red", "orange", "blue", "green"]
+        counter = 0
+        for color in colors:
+            square = change_color_button(color)
+            square.grid(row=CHANGE_COLOR_ROW, column=(600)+counter, padx=PADX, pady=0)
+            counter += 50
+
+
 
     return buttons
 
