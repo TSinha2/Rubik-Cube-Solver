@@ -1,7 +1,6 @@
 import cv2
 import numpy as np
 from scipy.spatial import distance
-from get_face_image import get_face
 
 
 # Set up the webcam
@@ -9,7 +8,7 @@ cap = cv2.VideoCapture(0)
 
 # Constants for k-means clustering
 NUM_CLUSTERS = 1
-NUM_COLORS = 50
+NUM_COLORS = 6
 
 # Initialize variables for color identification
 # color_identified = 0
@@ -126,6 +125,56 @@ cv2.destroyAllWindows()
 
 # Perform color extraction using k-means clustering
 # display_color(target_color)
+
+def get_face(color):
+    # Set up the webcam
+    cap = cv2.VideoCapture(0)
+
+    # Constants for grid dimensions
+    grid_size = 180
+    grid_rows = 3
+    grid_cols = 3
+    line_thickness = 1
+
+    while True:
+        # Capture frame from the webcam
+        ret, frame = cap.read()
+
+        # Get the dimensions of the frame
+        height, width, _ = frame.shape
+
+        # Calculate the top-left corner coordinates of the grid
+        grid_x = int((width - grid_size) / 2)
+        grid_y = int((height - grid_size) / 2)
+
+        # Draw the grid lines within the grid region
+        for i in range(1, grid_rows):
+            # Draw horizontal lines
+            y = grid_y + int((i / grid_rows) * grid_size)
+            cv2.line(frame, (grid_x, y), (grid_x + grid_size, y), (0, 0, 0), line_thickness)
+
+        for i in range(1, grid_cols):
+            # Draw vertical lines
+            x = grid_x + int((i / grid_cols) * grid_size)
+            cv2.line(frame, (x, grid_y), (x, grid_y + grid_size), (0, 0, 0), line_thickness)
+
+        # Display the frame
+        cv2.imshow('Capture Grid', frame)
+
+        # Check for key press
+        key = cv2.waitKey(1)
+        if key == ord('q'):
+            # Extract the grid region from the frame
+            grid_roi = frame[grid_y:grid_y + grid_size, grid_x:grid_x + grid_size]
+
+            # Save the grid image as color.png
+            cv2.imwrite(color + '.png', grid_roi)
+
+            break
+
+    # Release the webcam and destroy the window
+    cap.release()
+    cv2.destroyAllWindows()
 
 
 def face_color(color):
