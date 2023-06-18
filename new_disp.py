@@ -3,6 +3,8 @@ import customtkinter as ctk
 from cube import Cube
 from numpy import fliplr
 from solver import Solver
+from face_id import FaceID
+import cv2
 
 ctk.set_appearance_mode("System")  # Modes: system (default), light, dark
 ctk.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
@@ -213,5 +215,23 @@ solve_button.grid(row=16, column=1, columnspan=6, padx=PADX, pady=PADY)
 # Create text widget to display solution
 solution_text = ctk.CTkTextbox(app, width=500, height=100, state='disabled')
 solution_text.grid(row=17, column=1, columnspan=8, padx=PADX, pady=PADY)
+
+
+face_id = FaceID()  # Instantiate the FaceID class
+
+def get_cube_state():
+    global test_cube, cube_buttons
+    colors = ["white", "yellow", "red", "orange", "blue", "green"]
+    cube_state = face_id.get_cube_state(colors)
+    test_cube = Cube(cube_state)
+    cv2.destroyAllWindows()
+    update_cube_state()
+    update_cube_ui()
+
+get_state_button = ctk.CTkButton(
+    text="Get Cube State", master=app,
+    command=get_cube_state
+)
+get_state_button.grid(row=CHANGE_COLOR_ROW, column=1000, padx=PADX, pady=0)
 
 app.mainloop()
