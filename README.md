@@ -2,10 +2,13 @@
 
 A simple Rubik's Cube Solver made using Python [Work in Progress] . 
 
-This repository consists of "cube.py" -- a class to represent a 3x3 Rubik's Cube; "solver.py" -- outputs the beginner method solution, using the previously mentioned Cube class, described on the <a href='https://ruwix.com/the-rubiks-cube/how-to-solve-the-rubiks-cube-beginners-method/'>Ruwix</a> website.
+This repository consists of the following files: 
+- "cube.py" -- a class to represent a 3x3 Rubik's Cube; 
+- "solver.py" -- outputs the beginner method solution, using the previously mentioned Cube class, described on the <a href='https://ruwix.com/the-rubiks-cube/how-to-solve-the-rubiks-cube-beginners-method/'>Ruwix</a> website. 
+- "face_id.py" -- uses the opencv library to get the state of the Rubik Cube (to be used by solver)
+- "new_disp.py" -- use Custom TKinter to make a Rubik's Cube Solver. 
 
-Note that the solver is fully functional, and its usage is described below:
-
+# Headless implementation
 ```
 from cube import Cube
 from solver import Solver
@@ -31,22 +34,10 @@ sample_cube_2.algorithm_parser("B2 L' D' B2 R F U2 F' R2 D F2 R F2 B2 R D2 R' U2
 sample_solver_2 = Solver(sample_cube)
 sample_solver_2.solve() # Returns string with moves to solve Cube 
 ```
+# GUI
+Run ```python3 new_disp.py```. The default state of the given Rubik's Cube is solved. 
 
-To use the webcam to get the scramble: 
-``` python face_id.py```
-First, 'teach' the program how the colors look. Do this by FIRSTLY putting the white color from the cube in the centre of the square on the webcam, and pressing ```c```. Repeat this process for yellow, blue, green, red and orange. 
+You can manually update the state by clicking the colored button on the bottom left, and then clicking the Rubik Cube. Alternatively, you can use the "Get Cube State" button to use your webcam to get the Rubik Cube state.
 
-After teaching the cube, how the colors look, put in the faces in the following order: white, yellow, blue, green, red and orange.  To put in a face, match it to the grid on the webcam as best as you possibly can, and then pressing ```space```. After the 6th (orange) face, you will have a string representing the cube state that can bes solved using the method described above. 
 
-Note using the webcam to get the scramble is not perfectly accurate, and often mistakes white for yellow, orange for red and vice versa (in both cases). 
-
-Optional:
-To visualize how the cube looked (in a 2D "net"), there is also a file called display.py, that uses the pygame library. It was primarily used for debugging --- however if you want to use it, just modify "test_cube" in that file with your own scramble and run it: ```python3 display.py```
-
-WIP: 
-To visualize the cube using PySide6 (i.e. PyQT), you can use new_disp.py. Run it using ```python3 new_disp.py```. Unlike the Pygame implementation, it has text input to parse algorithms in the UI. 
-
-TODO: 
-1) Add Option to Click and Select individual squares
-2) Integrate camera recog functionality into UI
 
