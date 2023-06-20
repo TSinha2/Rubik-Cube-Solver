@@ -37,7 +37,20 @@ sample_solver_2.solve() # Returns string with moves to solve Cube
 # GUI
 Run ```python3 new_disp.py```. The default state of the given Rubik's Cube is solved. 
 
-You can manually update the state by clicking the colored button on the bottom left, and then clicking the Rubik Cube. Alternatively, you can use the "Get Cube State" button to use your webcam to get the Rubik Cube state.
+You can manually update the state by clicking the colored button on the bottom left, and then clicking the Rubik Cube. Alternatively, you can use the "Get Cube State" button to use your webcam to get the Rubik Cube state. If you manually scrambled the cube and know the moves you made, then you can input a scramble using the standard Rubik Cube notation described [here]([url](https://ruwix.com/the-rubiks-cube/notation/)). 
 
+Press the solve button to get an algorithm that solves the cube using the method described in the <a href='https://ruwix.com/the-rubiks-cube/how-to-solve-the-rubiks-cube-beginners-method/'>Ruwix</a> website. 
+
+NOTE: Your operating system may indicate that your webcam is being used as soon as you start the program. Rest assured the webcam is not storing any information, and you can even cover your webcam without affecting functionality (obviously excluding the ability to use the webcam to get the cube state)
+
+Refer to below screenshot for a visual reference of the buttons mentioned above:
+<img width="1438" alt="image" src="https://github.com/TSinha2/Rubik-Cube-Solver/assets/90647555/4cd487e2-3fba-4a27-8045-4e45d0659208">
+
+
+TODO: 
+- Make sure that new_disp.py doesn't automatically turn on webcam when started.
+- Add requirements.txt
+- Add a Kociemba solver to make an optimal solver (using minimal words)
+- Make sure that redundant moves (e.g. U U') are removed from the human solution. 
 
 
